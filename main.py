@@ -1,4 +1,5 @@
 import gooeypie as gp
+import passwordchecker
 
 #Create app
 app = gp.GooeyPieApp('Password Checker')
@@ -25,6 +26,7 @@ app.add(scoreDisplay,2,1,fill=True,column_span=2)
 app.add(feedbackText,3,1,fill=True,column_span=2)
 
 passwordInput.add_event_listener('change', on_text_change)
+
 
 
 app.run()
