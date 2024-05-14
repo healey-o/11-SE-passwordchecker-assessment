@@ -3,24 +3,23 @@ import gooeypie as gp
 #Create app
 app = gp.GooeyPieApp('Password Checker')
 app.width = 400
-app.height = 500
+app.height = 200
 
 #Create grid
-app.set_grid(5,2)
+app.set_grid(3,2)
 
 
 #Create widgets
-password_labelcontainer = gp.Container(app)
-password_labelcontainer.set_grid(1,2)
-
-password_label = gp.Label(app,"Enter Password:")
-password_input = gp.Secret(app)
+passwordLabel = gp.Label(app,"Enter Password:")
+passwordInput = gp.Secret(app)
+scoreDisplay = gp.Progressbar(app,'determinate')
+feedbackText = gp.Label(app, "")
 
 #Add widgets to grid
-app.add(password_labelcontainer,1,1)
-
-password_labelcontainer.add(password_label,1,1,align="center")
-password_labelcontainer.add(password_input,1,2,fill=True)
+app.add(passwordLabel,1,1,align="center")
+app.add(passwordInput,1,2,fill=True)
+app.add(scoreDisplay,2,1,fill=True,column_span=2)
+app.add(feedbackText,3,1,fill=True,column_span=2)
 
 
 app.run()
