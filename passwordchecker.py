@@ -12,7 +12,7 @@ class PasswordChecker:
     def score_rarity(self):
         pass
 
-    def score_security(self):
+    def score_pwned(self):
         pass
 
     def update_password(self,new_password):
