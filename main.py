@@ -1,5 +1,5 @@
 import gooeypie as gp
-import passwordchecker
+from passwordchecker import PasswordChecker
 
 #Create app
 app = gp.GooeyPieApp('Password Checker')
@@ -12,6 +12,8 @@ app.set_grid(3,2)
 #Define functions
 def on_text_change(event):
     feedbackText.text = f"Your password is {str(len(passwordInput.text))} characters long."
+    securityScorer.update_password(passwordInput.text)
+    scoreDisplay.value = securityScorer.score_length()
 
 #Create widgets
 passwordLabel = gp.Label(app,"Enter Password:")
@@ -27,6 +29,6 @@ app.add(feedbackText,3,1,fill=True,column_span=2)
 
 passwordInput.add_event_listener('change', on_text_change)
 
-
+securityScorer = PasswordChecker(passwordInput)
 
 app.run()

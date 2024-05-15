@@ -1,10 +1,10 @@
 class PasswordChecker:
     def __init__(self,password):
-        self.password = password
+        self._password = password
         self.score = None
     
     def score_length(self):
-        return min(len(self.password)*10,100)
+        return min(len(self._password)*10,100)
 
     def score_characters(self):
         pass
@@ -14,3 +14,6 @@ class PasswordChecker:
 
     def score_security(self):
         pass
+
+    def update_password(self,new_password):
+        self._password = new_password
