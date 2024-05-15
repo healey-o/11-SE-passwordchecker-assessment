@@ -16,12 +16,15 @@ def on_text_change(event):
     scoreDisplay.value = passometer.score_length()
 
 #Create widgets
+#Title
 title = gp.StyleLabel(app,"Pass-O-Meter")
 title.font_name = "Comic Sans MS"
 title.font_size = 20
 
+#Password input
 passwordLabel = gp.Label(app,"Enter Password:")
 passwordInput = gp.Secret(app)
+#Score
 scoreDisplay = gp.Progressbar(app,'determinate')
 feedbackText = gp.Label(app, "")
 
@@ -32,8 +35,10 @@ app.add(passwordInput,2,2,fill=True)
 app.add(scoreDisplay,3,1,fill=True,column_span=2)
 app.add(feedbackText,4,1,fill=True,column_span=2)
 
+#Event listeners
 passwordInput.add_event_listener('change', on_text_change)
 
+#Instatiate PasswordChecker class
 passometer = PasswordChecker(passwordInput)
 
 app.run()
