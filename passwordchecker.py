@@ -6,19 +6,25 @@ class PasswordChecker:
 
     #Methods - 'score' functions return an integer between 0-100
     def score_length(self): #Scores based on password length
+
+        #Strongest password length is >= 
         return min(len(self._password)*7,100)
 
     def score_characters(self): #Scores based on special characters/number used
         specialChars = 0
         numbers = 0
+        capitals = 0
         for char in self._password:
             if char.isnumeric():
                 numbers += 1
-            elif not char.isalnum():
+            elif char.isupper():
+                capitals += 1
+            elif not char.isalnum():#If it is neither a number or letter, it is a special character
                 specialChars += 1
         
-        #Max score achieved by 2 numbers and 2 special characters
-        return min(50, numbers * 35) + min(50,specialChars * 35)
+        #Max score achieved by 2 of each type (numbers, capitals, special characters)
+        #Second character of each type is worth less
+        return min(33, numbers * 20) + min(34,specialChars * 20) + min(33,capitals * 30)
 
     def score_rarity(self): #Scores on the commoness of the password
         return 0
