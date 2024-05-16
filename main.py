@@ -11,9 +11,9 @@ app.set_grid(4,2)
 
 #Define functions
 def on_text_change(event):
-    feedbackText.text = f"Your password is {str(len(passwordInput.text))} characters long."
+    feedbackText.text = f"Length score: {passometer.score_length()}\nCharacter Score: {passometer.score_characters()}"
     passometer.update_password(passwordInput.text)
-    scoreDisplay.value = passometer.score_length()
+    scoreDisplay.value = passometer.combine_scores(50,50,0) #Weights to be adjusted
 
 #Create widgets
 #Title
@@ -39,6 +39,6 @@ app.add(feedbackText,4,1,fill=True,column_span=2)
 passwordInput.add_event_listener('change', on_text_change)
 
 #Instatiate PasswordChecker class
-passometer = PasswordChecker(passwordInput)
+passometer = PasswordChecker(passwordInput.text)
 
 app.run()

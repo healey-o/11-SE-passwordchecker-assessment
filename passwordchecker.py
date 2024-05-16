@@ -21,10 +21,23 @@ class PasswordChecker:
         return min(50, numbers * 35) + min(50,specialChars * 35)
 
     def score_rarity(self): #Scores on the commoness of the password
-        pass
+        return 0
 
     def score_pwned(self): #Scores based on if the password is breached
-        pass
+        return 100
+
+    def combine_scores(self,lengthWeight,characterWeight,rarityWeight):
+        if self.score_pwned() <= 0: #pwned is either 0 or 100, and if breached score is automatically 0
+            return 0
+        
+        else:
+            totalWeight = lengthWeight + characterWeight + rarityWeight
+            weightedLength = ((self.score_length()/totalWeight)*lengthWeight)
+            weightedCharacters = ((self.score_characters()/totalWeight)*characterWeight)
+            weightedRarity = ((self.score_rarity()/totalWeight)*rarityWeight)
+
+            return weightedLength + weightedCharacters + weightedRarity
+
 
     #Setter method
     def update_password(self,new_password):
