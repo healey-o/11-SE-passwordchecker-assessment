@@ -11,9 +11,9 @@ app.set_grid(4,2)
 
 #Define functions
 def on_text_change(event):
-    feedbackText.text = f"Length score: {passometer.score_length()}\nCharacter Score: {passometer.score_characters()}"
     passometer.update_password(passwordInput.text)
     scoreDisplay.value = passometer.combine_scores(50,50,0) #Weights to be adjusted
+    feedbackText.text = f"Length score: {passometer.score_length()}\nCharacter Score: {passometer.score_characters()}"
 
 #Create widgets
 #Title
