@@ -1,3 +1,5 @@
+import pyhibp
+
 class PasswordChecker:
     def __init__(self,password):
         self._password = password
@@ -27,7 +29,7 @@ class PasswordChecker:
         return min(33, numbers * 20) + min(34,specialChars * 20) + min(33,capitals * 30)
 
     def score_rarity(self): #Scores on the commoness of the password
-        return 0
+        return 100
 
     def score_pwned(self): #Scores based on if the password is breached
         return 100
@@ -41,6 +43,8 @@ class PasswordChecker:
             weightedLength = ((self.score_length()/totalWeight)*lengthWeight)
             weightedCharacters = ((self.score_characters()/totalWeight)*characterWeight)
             weightedRarity = ((self.score_rarity()/totalWeight)*rarityWeight)
+
+            
 
             return weightedLength + weightedCharacters + weightedRarity
 
