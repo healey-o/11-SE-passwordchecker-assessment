@@ -4,7 +4,7 @@ from passwordchecker import PasswordChecker
 #Create app
 app = gp.GooeyPieApp('Password Checker')
 app.width = 400
-app.height = 200
+app.height = 300
 
 #Create grid
 app.set_grid(4,2)
@@ -12,8 +12,12 @@ app.set_grid(4,2)
 #Define functions
 def on_text_change(event):
     passometer.update_password(passwordInput.text)
-    scoreDisplay.value = passometer.combine_scores(50,50,0) #Weights to be adjusted
-    feedbackText.text = f"Length score: {passometer.score_length()}\nCharacter Score: {passometer.score_characters()}"
+    scoreDisplay.value = passometer.combine_scores(30,30,30) #Weights to be adjusted
+    feedbackText.text = f"""
+    Length score: {passometer.score_length()}
+    Character Score: {passometer.score_characters()}
+    Rarity Score: {passometer.score_rarity()}
+    """
 
 #Create widgets
 #Title

@@ -1,9 +1,14 @@
 import pyhibp
+import sqlite3
 
 class PasswordChecker:
     def __init__(self,password):
-        self._password = password
+        self._password = "password"
         self.score = None
+
+        #Initialise connection to database at intit to decrease processing time later
+        self.passwordsConnection = sqlite3.connect("common_passwords.db")
+        self.cursor = self.passwordsConnection.cursor()
     
 
     #Methods - 'score' functions return an integer between 0-100
@@ -29,7 +34,24 @@ class PasswordChecker:
         return min(33, numbers * 20) + min(34,specialChars * 20) + min(33,capitals * 30)
 
     def score_rarity(self): #Scores on the commoness of the password
-        return 100
+        #Access database and check for password
+        self.cursor.execute(
+            "SELECT ROWID, COUNT(1) FROM passwords WHERE value = ?",
+            (self._password,)
+        )
+
+        #Store its row in the database (or None if not in database)
+        passwordRow = self.cursor.fetchone()[0]
+
+        #Check if the password was in a row
+        if passwordRow != None:
+            #Return a lower value the more common the password
+            return min(round(passwordRow/5),99)#Gives a score between 0 and 99
+        else:
+            #Not a common password
+            return 100
+
+
 
     def score_pwned(self): #Scores based on if the password is breached
         return 100
