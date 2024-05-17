@@ -11,13 +11,19 @@ app.set_grid(4,2)
 
 #Define functions
 def on_text_change(event):
-    passometer.update_password(passwordInput.text)
-    scoreDisplay.value = passometer.combine_scores(30,30,30) #Weights to be adjusted
-    feedbackText.text = f"""
-    Length score: {passometer.score_length()}
-    Character Score: {passometer.score_characters()}
-    Rarity Score: {passometer.score_rarity()}
-    """
+    if passwordInput.text != "":
+        passometer.update_password(passwordInput.text)
+        scoreDisplay.value = passometer.combine_scores(1,1,1) #Weights to be adjusted
+        feedbackText.text = f"""Length score: {passometer.score_length()}
+Character Score: {passometer.score_characters()}
+Rarity Score: {passometer.score_rarity()}"""
+        
+    else:
+        #Do not check score of empty string
+        feedbackText.text = f"""Length score:
+Character Score:
+Rarity Score:"""
+
 
 #Create widgets
 #Title
@@ -28,9 +34,15 @@ title.font_size = 20
 #Password input
 passwordLabel = gp.Label(app,"Enter Password:")
 passwordInput = gp.Secret(app)
-#Score
+
+#Score and feedback
 scoreDisplay = gp.Progressbar(app,'determinate')
 feedbackText = gp.Label(app, "")
+
+#Add text to feedback
+feedbackText.text = f"""Length score:
+Character Score:
+Rarity Score:"""
 
 #Add widgets to grid
 app.add(title,1,1,align="center",column_span=2)

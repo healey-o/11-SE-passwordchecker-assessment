@@ -9,6 +9,7 @@ class PasswordChecker:
         #Initialise connection to database at intit to decrease processing time later
         self.passwordsConnection = sqlite3.connect("common_passwords.db")
         self.cursor = self.passwordsConnection.cursor()
+        
     
 
     #Methods - 'score' functions return an integer between 0-100
