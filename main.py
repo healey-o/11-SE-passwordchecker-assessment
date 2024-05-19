@@ -5,9 +5,11 @@ from passwordchecker import PasswordChecker
 app = gp.GooeyPieApp('Password Checker')
 app.width = 400
 app.height = 300
+app.resizable_horizontal = False
+app.resizable_vertical = False
 
 #Create grid
-app.set_grid(4,2)
+app.set_grid(5,2)
 
 #Define functions
 def on_text_change(event):
@@ -45,12 +47,23 @@ feedbackText.text = f"""Length score:
 Character Score:
 Rarity Score:"""
 
+#Add help/about buttons
+btnContainer = gp.Container(app)
+btnContainer.set_grid(1,2)
+
+helpBtn = gp.Button(btnContainer,"Help",None)
+aboutBtn = gp.Button(btnContainer,"About",None)
+
 #Add widgets to grid
 app.add(title,1,1,align="center",column_span=2)
 app.add(passwordLabel,2,1,align="center")
 app.add(passwordInput,2,2,fill=True)
 app.add(scoreDisplay,3,1,fill=True,column_span=2)
 app.add(feedbackText,4,1,fill=True,column_span=2)
+app.add(btnContainer,5,2,fill=True)
+
+btnContainer.add(helpBtn,1,1,fill=True)
+btnContainer.add(aboutBtn,1,2,fill=True)
 
 #Event listeners
 passwordInput.add_event_listener('change', on_text_change)
