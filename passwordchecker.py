@@ -1,3 +1,4 @@
+from pyhibp import pwnedpasswords as pw
 import pyhibp
 import sqlite3
 
@@ -9,6 +10,18 @@ class PasswordChecker:
         #Initialise connection to database at intit to decrease processing time later
         self.passwordsConnection = sqlite3.connect("common_passwords.db")
         self.cursor = self.passwordsConnection.cursor()
+
+        #Initialise pyhibp
+        pyhibp.set_user_agent(ua="Pass-O-Meter/0.0.1 (A simple password secuirty analysing program.)")
+
+        #Check if pyhibp can be accessed
+        try:
+            pw.is_password_breached(password=self._password)
+            self.pyhibpAvailiable = True
+        except:
+            self.pyhibpAvailiable = False
+
+        
         
     
 
@@ -55,7 +68,13 @@ class PasswordChecker:
 
 
     def score_pwned(self): #Scores based on if the password is breached
-        return 100
+        
+        #Ensure the current network allows API calls
+        if self.pyhibpAvailiable:
+            #0 if breached, 100 if not breached
+            return (not pw.is_password_breached(password=self._password))*100
+        else:
+            return 100
 
     def combine_scores(self,lengthWeight,characterWeight,rarityWeight):
         if self.score_pwned() <= 0: #pwned is either 0 or 100, and if breached score is automatically 0
