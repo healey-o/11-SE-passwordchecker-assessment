@@ -20,6 +20,7 @@ Rarity Score: {passometer.score_rarity()}"""
         
     else:
         #Do not check score of empty string
+        scoreDisplay.value = 0
         feedbackText.text = f"""Length score:
 Character Score:
 Rarity Score:"""
@@ -53,6 +54,8 @@ app.add(feedbackText,4,1,fill=True,column_span=2)
 
 #Event listeners
 passwordInput.add_event_listener('change', on_text_change)
+
+
 
 #Instatiate PasswordChecker class
 passometer = PasswordChecker(passwordInput.text)

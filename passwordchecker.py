@@ -1,6 +1,7 @@
 from pyhibp import pwnedpasswords as pw
 import pyhibp
 import sqlite3
+import math
 
 class PasswordChecker:
     def __init__(self,password):
@@ -29,7 +30,7 @@ class PasswordChecker:
     def score_length(self): #Scores based on password length
 
         #Strongest password length is >= 
-        return min(len(self._password)*7,100)
+        return min(math.ceil((2**len(self._password))/40)+5*len(self._password),100)
 
     def score_characters(self): #Scores based on special characters/number used
         specialChars = 0
