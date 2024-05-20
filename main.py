@@ -24,7 +24,10 @@ def on_password_submit(event):
         feedbackText.text = f"""Length score: {passometer.score_length()}
 Character Score: {passometer.score_characters()}
 Rarity Score: {passometer.score_rarity()}
-score_pwned(temp): {passometer.score_pwned()}"""
+"""
+        
+        if passometer.timesPwned:
+            feedbackText.text += (f"\nWARNING: Password has been breached {passometer.timesPwned} times!")
         
     else:
         #Do not check score of empty string
@@ -32,7 +35,7 @@ score_pwned(temp): {passometer.score_pwned()}"""
         feedbackText.text = f"""Length score:
 Character Score:
 Rarity Score:
-score_pwned(temp):"""
+"""
         
 #Open subwindows
 def open_help(event):
@@ -78,7 +81,8 @@ feedbackText = gp.Label(app, "")
 #Add text to feedback
 feedbackText.text = f"""Length score:
 Character Score:
-Rarity Score:"""
+Rarity Score:
+"""
 
 #Add help/about buttons
 btnContainer = gp.Container(app)
@@ -111,7 +115,7 @@ app.add(title,1,1,align="center",column_span=2)
 
 app.add(passwordLabel,2,1,align="center")
 app.add(passwordInput,2,2,fill=True)
-app.add(passwordSubmit,3,1,fill=True)
+app.add(passwordSubmit,3,1,fill=True,column_span=2)
 
 app.add(scoreDisplay,4,1,fill=True,column_span=2)
 app.add(feedbackText,5,1,fill=True,column_span=2)

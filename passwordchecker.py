@@ -17,10 +17,12 @@ class PasswordChecker:
 
         #Check if pyhibp can be accessed
         try:
-            pw.is_password_breached(password=self._password)
-            self.pyhibpAvailiable = True
+            self.timesPwned = pw.is_password_breached(password=self._password)
+            self.pyhibpAvailiable = True 
         except:
+            self.timesPwned = 0
             self.pyhibpAvailiable = False
+        
 
         
         
@@ -69,13 +71,13 @@ class PasswordChecker:
 
 
     def score_pwned(self): #Scores based on if the password is breached
-        
+        self.timesPwned = pw.is_password_breached(password=self._password)
         #Ensure the current network allows API calls
         if self.pyhibpAvailiable:
             #Gets the number of times breached
             timesPwned = pw.is_password_breached(password=self._password)
 
-            return max((100 - timesPwned * 3),0)
+            return max((100 - timesPwned / 5),0)
         else:
             return 100
 
