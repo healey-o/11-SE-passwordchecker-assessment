@@ -1,4 +1,5 @@
 import gooeypie as gp
+import custom_widgets as cw
 from passwordchecker import PasswordChecker
 
 #Create app
@@ -77,7 +78,7 @@ passwordInput = gp.Secret(app)
 passwordSubmit = gp.Button(app,"Scan Password",on_password_submit)
 
 #Score and feedback
-scoreDisplay = gp.Progressbar(app,'determinate')
+scoreDisplay = cw.ColourProgressbar(app,'determinate')
 feedbackText = gp.Label(app, "")
 
 #Add text to feedback
