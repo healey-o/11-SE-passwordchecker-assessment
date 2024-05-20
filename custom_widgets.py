@@ -5,7 +5,7 @@ import gooeypie as gp
 #This file allows me to create and style custom gooeypie widgets, by editing existing widgets
 
 class ColourProgressbar(ttk.Progressbar, gp.GooeyPieWidget):
-    """ Similar to ordinary gooeypie PorgressBar, but with changable colours
+    """ Similar to an ordinary gooeypie PorgressBar, but with changable colours
 
      """
 
@@ -19,11 +19,15 @@ class ColourProgressbar(ttk.Progressbar, gp.GooeyPieWidget):
         gp.GooeyPieWidget.__init__(self, container)
 
         self._value = tk.IntVar()
+        self.mode = mode
+
+        #Custom styling
         self.style = ttk.Style()
         self.style.theme_use('alt')
         self.style.configure("red.Horizontal.TProgressbar", foreground='red', background='red')
         ttk.Progressbar.__init__(self, container, style="red.Horizontal.TProgressbar", variable=self._value)
-        self.mode = mode
+
+        
 
     def __str__(self):
         return f"<Progressbar widget>"
