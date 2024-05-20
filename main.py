@@ -14,7 +14,7 @@ app.set_grid(6,2)
 
 #Define functions
 #Update screen to display score
-def on_text_change(event):
+def on_password_submit(event):
     if passwordInput.text != "":
         #Update password checker, then display results
         passometer.update_password(passwordInput.text)
@@ -69,6 +69,7 @@ title.font_size = 20
 #Password input
 passwordLabel = gp.Label(app,"Enter Password:")
 passwordInput = gp.Secret(app)
+passwordSubmit = gp.Button(app,"Scan Password",on_password_submit)
 
 #Score and feedback
 scoreDisplay = gp.Progressbar(app,'determinate')
@@ -110,6 +111,7 @@ app.add(title,1,1,align="center",column_span=2)
 
 app.add(passwordLabel,2,1,align="center")
 app.add(passwordInput,2,2,fill=True)
+app.add(passwordSubmit,3,1,fill=True)
 
 app.add(scoreDisplay,4,1,fill=True,column_span=2)
 app.add(feedbackText,5,1,fill=True,column_span=2)
@@ -125,9 +127,6 @@ helpWindow.add(helpClose,3,1,valign="bottom")
 aboutWindow.add(aboutTitle,1,1,fill=True)
 aboutWindow.add(aboutText,2,1,fill=True,stretch=True)
 aboutWindow.add(aboutClose,3,1,valign="bottom")
-
-#Event listeners
-passwordInput.add_event_listener('change', on_text_change)
 
 
 
