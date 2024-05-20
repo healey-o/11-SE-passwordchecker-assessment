@@ -13,7 +13,7 @@ class PasswordChecker:
         self.cursor = self.passwordsConnection.cursor()
 
         #Initialise pyhibp
-        pyhibp.set_user_agent(ua="Pass-O-Meter/0.0.1 (A simple password secuirty analysing program.)")
+        pyhibp.set_user_agent(ua="Pass-O-Meter/A simple password secuirty analysing program.")
 
         #Check if pyhibp can be accessed
         try:
@@ -72,24 +72,23 @@ class PasswordChecker:
         
         #Ensure the current network allows API calls
         if self.pyhibpAvailiable:
-            #0 if breached, 100 if not breached
-            return (not pw.is_password_breached(password=self._password))*100
+            #Gets the number of times breached
+            timesPwned = pw.is_password_breached(password=self._password)
+
+            return max((100 - timesPwned * 3),0)
         else:
             return 100
 
     def combine_scores(self,lengthWeight,characterWeight,rarityWeight):
-        if self.score_pwned() <= 0: #pwned is either 0 or 100, and if breached score is automatically 0
-            return 0
+        totalWeight = lengthWeight + characterWeight + rarityWeight
+        weightedLength = ((self.score_length()/totalWeight)*lengthWeight)
+        weightedCharacters = ((self.score_characters()/totalWeight)*characterWeight)
+        weightedRarity = ((self.score_rarity()/totalWeight)*rarityWeight)
+
         
-        else:
-            totalWeight = lengthWeight + characterWeight + rarityWeight
-            weightedLength = ((self.score_length()/totalWeight)*lengthWeight)
-            weightedCharacters = ((self.score_characters()/totalWeight)*characterWeight)
-            weightedRarity = ((self.score_rarity()/totalWeight)*rarityWeight)
-
-            
-
-            return weightedLength + weightedCharacters + weightedRarity
+        #The total score is the sum of the weighted scores
+        #The score is out of 100, but if the password is breached, the score is calculated as if the return value of self.score_pwned() is the max score.
+        return int((weightedLength + weightedCharacters + weightedRarity) * (self.score_pwned()/100))
 
 
     #Setter method

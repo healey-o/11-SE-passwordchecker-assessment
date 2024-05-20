@@ -4,29 +4,35 @@ from passwordchecker import PasswordChecker
 #Create app
 app = gp.GooeyPieApp('Password Checker')
 app.width = 400
-app.height = 300
+app.height = 350
 app.resizable_horizontal = False
 app.resizable_vertical = False
 
 #Create grid
-app.set_grid(5,2)
+app.set_grid(6,2)
+
 
 #Define functions
 #Update screen to display score
 def on_text_change(event):
     if passwordInput.text != "":
+        #Update password checker, then display results
         passometer.update_password(passwordInput.text)
+
         scoreDisplay.value = passometer.combine_scores(1,1,1) #Weights to be adjusted
+
         feedbackText.text = f"""Length score: {passometer.score_length()}
 Character Score: {passometer.score_characters()}
-Rarity Score: {passometer.score_rarity()}"""
+Rarity Score: {passometer.score_rarity()}
+score_pwned(temp): {passometer.score_pwned()}"""
         
     else:
         #Do not check score of empty string
         scoreDisplay.value = 0
         feedbackText.text = f"""Length score:
 Character Score:
-Rarity Score:"""
+Rarity Score:
+score_pwned(temp):"""
         
 #Open subwindows
 def open_help(event):
@@ -82,7 +88,7 @@ aboutBtn = gp.Button(btnContainer,"About",open_about)
 
 #Subwindow widgets
 #Help
-helpTitle = gp.StyleLabel(helpWindow,"About")
+helpTitle = gp.StyleLabel(helpWindow,"Help")
 helpTitle.font_size = 20
 helpTitle.font_name = "Times New Roman"
 
@@ -101,11 +107,13 @@ aboutClose = gp.Button(aboutWindow, "Close",close_about)
 
 #Add widgets to grid
 app.add(title,1,1,align="center",column_span=2)
+
 app.add(passwordLabel,2,1,align="center")
 app.add(passwordInput,2,2,fill=True)
-app.add(scoreDisplay,3,1,fill=True,column_span=2)
-app.add(feedbackText,4,1,fill=True,column_span=2)
-app.add(btnContainer,5,2,fill=True)
+
+app.add(scoreDisplay,4,1,fill=True,column_span=2)
+app.add(feedbackText,5,1,fill=True,column_span=2)
+app.add(btnContainer,6,2,fill=True)
 
 btnContainer.add(helpBtn,1,1,fill=True)
 btnContainer.add(aboutBtn,1,2,fill=True)
