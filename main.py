@@ -19,20 +19,22 @@ def on_password_submit(event):
         #Update password checker, then display results
         passometer.update_password(passwordInput.text)
 
-        scoreDisplay.value = passometer.combine_scores(1,1,1) #Weights to be adjusted
+        scoreDisplay.value = passometer.combine_scores(2,3,1) #Weights to be adjusted
 
-        feedbackText.text = f"""Length score: {passometer.score_length()}
+        feedbackText.text = f"""Length Score: {passometer.score_length()}
 Character Score: {passometer.score_characters()}
 Rarity Score: {passometer.score_rarity()}
 """
         
         if passometer.timesPwned:
             feedbackText.text += (f"\nWARNING: Password has been breached {passometer.timesPwned} times!")
+        else:
+            feedbackText.text += (f"\nPassword has not been breached.")
         
     else:
         #Do not check score of empty string
         scoreDisplay.value = 0
-        feedbackText.text = f"""Length score:
+        feedbackText.text = f"""Length Score:
 Character Score:
 Rarity Score:
 """
@@ -79,7 +81,7 @@ scoreDisplay = gp.Progressbar(app,'determinate')
 feedbackText = gp.Label(app, "")
 
 #Add text to feedback
-feedbackText.text = f"""Length score:
+feedbackText.text = f"""Length Score:
 Character Score:
 Rarity Score:
 """
