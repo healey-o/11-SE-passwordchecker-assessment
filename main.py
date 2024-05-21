@@ -13,6 +13,7 @@ app.resizable_vertical = False
 #Create grid
 app.set_grid(6,2)
 
+#Set tkinter theme
 style = ttk.Style()
 style.theme_use('alt')
 

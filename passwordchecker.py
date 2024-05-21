@@ -35,20 +35,23 @@ class PasswordChecker:
         return min(math.ceil((2**len(self._password))/40)+5*len(self._password),100)
 
     def score_characters(self): #Scores based on special characters/number used
-        specialChars = 0
-        numbers = 0
-        capitals = 0
+        specialCount = 0
+        NumberCount = 0
+        upperCount = 0
+        lowerCount = 0
         for char in self._password:
             if char.isnumeric():
-                numbers += 1
+                NumberCount += 1
             elif char.isupper():
-                capitals += 1
+                upperCount += 1
+            elif char.islower():
+                lowerCount += 1
             elif not char.isalnum():#If it is neither a number or letter, it is a special character
-                specialChars += 1
+                specialCount += 1
         
-        #Max score achieved by 2 of each type (numbers, capitals, special characters)
+        #Max score achieved by 2 of each type (numbers, uppercase, lowercase, special characters)
         #Second character of each type is worth less
-        return min(33, numbers * 20) + min(34,specialChars * 20) + min(33,capitals * 30)
+        return min(25, NumberCount * 20) + min(25,specialCount * 20) + min(25,upperCount * 30) + min(25, lowerCount * 30)
 
     def score_rarity(self): #Scores on the commoness of the password
         #Access database and check for password
