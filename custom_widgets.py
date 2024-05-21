@@ -20,12 +20,20 @@ class ColourProgressbar(ttk.Progressbar, gp.GooeyPieWidget):
 
         self._value = tk.IntVar()
         
-
         #Custom styling
         self.style = ttk.Style()
-        self.style.theme_use('alt')
-        self.style.configure("red.Horizontal.TProgressbar", foreground='red', background='red')
-        ttk.Progressbar.__init__(self, container, style="red.Horizontal.TProgressbar", variable=self._value)
+        
+
+        self.style.element_create("color.pbar", "from", "alt")
+
+        self.style.layout("ColourProgress.Horizontal.TProgressbar",
+                     [('Horizontal.Progressbar.trough',
+                      {'sticky': 'nswe',
+                       'children': [('Horizontal.Progressbar.color.pbar',
+                         {'side': 'left', 'sticky': 'ns'})]})])
+        self.style.configure("ColourProgress.Horizontal.TProgressbar", background='orange')
+
+        ttk.Progressbar.__init__(self, container, style="ColourProgress.Horizontal.TProgressbar", variable=self._value)
 
         self.mode = mode
 
@@ -48,6 +56,15 @@ class ColourProgressbar(ttk.Progressbar, gp.GooeyPieWidget):
             raise ValueError('Progressbar value must be an integer')
         if not (0 <= value <= 100):
             raise ValueError('Progressbar value must be an integer between 0 and 100 (inclusive)')
+        
+        if value <= 25:
+            self.style.configure("ColourProgress.Horizontal.TProgressbar", background='red')
+        elif value <= 50:
+            self.style.configure("ColourProgress.Horizontal.TProgressbar", background='orange')
+        elif value <= 75:
+            self.style.configure("ColourProgress.Horizontal.TProgressbar", background='yellow')
+        else:
+            self.style.configure("ColourProgress.Horizontal.TProgressbar", background='green')
 
         self._value.set(value)
 

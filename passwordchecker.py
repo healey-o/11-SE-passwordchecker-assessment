@@ -20,7 +20,7 @@ class PasswordChecker:
             self.timesPwned = pw.is_password_breached(password=self._password)
             self.pyhibpAvailiable = True 
         except:
-            self.timesPwned = 0
+            self.timesPwned = None
             self.pyhibpAvailiable = False
         
 

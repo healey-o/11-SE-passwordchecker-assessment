@@ -1,6 +1,7 @@
 import gooeypie as gp
 import custom_widgets as cw
 from passwordchecker import PasswordChecker
+from tkinter import ttk
 
 #Create app
 app = gp.GooeyPieApp('Password Checker')
@@ -12,6 +13,8 @@ app.resizable_vertical = False
 #Create grid
 app.set_grid(6,2)
 
+style = ttk.Style()
+style.theme_use('alt')
 
 #Define functions
 #Update screen to display score
@@ -29,6 +32,8 @@ Rarity Score: {passometer.score_rarity()}
         
         if passometer.timesPwned:
             feedbackText.text += (f"\nWARNING: Password has been breached {passometer.timesPwned} times!")
+        elif passometer.timesPwned == None:
+            feedbackText.text += (f"\nAPI unavailiable - Cannot check if password is breached.")
         else:
             feedbackText.text += (f"\nPassword has not been breached.")
         
@@ -83,7 +88,7 @@ feedbackText = gp.Label(app, "")
 
 #Add text to feedback
 feedbackText.text = f"""Length Score:
-Character Score:
+Character Score:    
 Rarity Score:
 """
 
