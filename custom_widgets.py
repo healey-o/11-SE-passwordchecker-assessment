@@ -19,13 +19,15 @@ class ColourProgressbar(ttk.Progressbar, gp.GooeyPieWidget):
         gp.GooeyPieWidget.__init__(self, container)
 
         self._value = tk.IntVar()
-        self.mode = mode
+        
 
         #Custom styling
         self.style = ttk.Style()
         self.style.theme_use('alt')
         self.style.configure("red.Horizontal.TProgressbar", foreground='red', background='red')
         ttk.Progressbar.__init__(self, container, style="red.Horizontal.TProgressbar", variable=self._value)
+
+        self.mode = mode
 
         
 
