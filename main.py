@@ -28,13 +28,20 @@ def on_password_submit(event):
     if passwordInput.text != "":
         #Update password checker, then display results
         passometer.update_password(passwordInput.text)
+
+        #Calculates all scores
+        passometer.score_length()
+        passometer.score_characters()
+        passometer.score_rarity()
+        passometer.score_pwned()
+        #Calculate final score
         passometer.combine_scores(2,3,1) #Weights to be adjusted
 
         scoreDisplay.value = passometer.get_score()
 
-        feedbackText.text = f"""Length Score: {passometer.score_length()}
-Character Score: {passometer.score_characters()}
-Rarity Score: {passometer.score_rarity()}
+        feedbackText.text = f"""Length Score: {passometer.get_length_score()}
+Character Score: {passometer.get_character_score()}
+Rarity Score: {passometer.get_rarity_score()}
 """
         
         if passometer.get_times_pwned():
