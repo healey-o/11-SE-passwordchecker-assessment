@@ -28,17 +28,18 @@ def on_password_submit(event):
     if passwordInput.text != "":
         #Update password checker, then display results
         passometer.update_password(passwordInput.text)
+        passometer.combine_scores(2,3,1) #Weights to be adjusted
 
-        scoreDisplay.value = passometer.combine_scores(2,3,1) #Weights to be adjusted
+        scoreDisplay.value = passometer.get_score()
 
         feedbackText.text = f"""Length Score: {passometer.score_length()}
 Character Score: {passometer.score_characters()}
 Rarity Score: {passometer.score_rarity()}
 """
         
-        if passometer.timesPwned:
-            feedbackText.text += (f"\nWARNING: Password has been breached {passometer.timesPwned} times!")
-        elif passometer.timesPwned == None:
+        if passometer.get_times_pwned():
+            feedbackText.text += (f"\nWARNING: Password has been breached {passometer.get_times_pwned()} times!")
+        elif passometer.get_times_pwned() == None:
             feedbackText.text += (f"\nAPI unavailiable - Cannot check if password is breached.")
         else:
             feedbackText.text += (f"\nPassword has not been breached.")

@@ -6,22 +6,24 @@ import math
 class PasswordChecker:
     def __init__(self,password):
         self._password = "password"
-        self.score = None
+
+        self._score = None
+
 
         #Initialise connection to database at intit to decrease processing time later
-        self.passwordsConnection = sqlite3.connect("common_passwords.db")
-        self.cursor = self.passwordsConnection.cursor()
+        self._passwordsConnection = sqlite3.connect("common_passwords.db")
+        self._cursor = self._passwordsConnection.cursor()
 
         #Initialise pyhibp
         pyhibp.set_user_agent(ua="Pass-O-Meter/A simple password secuirty analysing program.")
 
         #Check if pyhibp can be accessed
         try:
-            self.timesPwned = pw.is_password_breached(password=self._password)
-            self.pyhibpAvailiable = True 
+            self._timesPwned = pw.is_password_breached(password=self._password)
+            self._pyhibpAvailiable = True 
         except:
-            self.timesPwned = None
-            self.pyhibpAvailiable = False
+            self._timesPwned = None
+            self._pyhibpAvailiable = False
         
 
         
@@ -55,13 +57,13 @@ class PasswordChecker:
 
     def score_rarity(self): #Scores on the commoness of the password
         #Access database and check for password
-        self.cursor.execute(
+        self._cursor.execute(
             "SELECT ROWID, COUNT(1) FROM passwords WHERE value = ?",
             (self._password,)
         )
 
         #Store its row in the database (or None if not in database)
-        passwordRow = self.cursor.fetchone()[0]
+        passwordRow = self._cursor.fetchone()[0]
 
         #Check if the password was in a row
         if passwordRow != None:
@@ -75,12 +77,12 @@ class PasswordChecker:
 
     def score_pwned(self): #Scores based on if the password is breached
         #Ensure the current network allows API calls
-        if self.pyhibpAvailiable:
+        if self._pyhibpAvailiable:
 
             #Gets the number of times breached
-            self.timesPwned = pw.is_password_breached(password=self._password)
+            self._timesPwned = pw.is_password_breached(password=self._password)
 
-            return max((100 - self.timesPwned / 5),0)
+            return max((100 - self._timesPwned / 5),0)
         else:
             return 100
 
@@ -93,9 +95,16 @@ class PasswordChecker:
         
         #The total score is the sum of the weighted scores
         #The score is out of 100, but if the password is breached, the score is calculated as if the return value of self.score_pwned() is the max score.
-        return int((weightedLength + weightedCharacters + weightedRarity) * (self.score_pwned()/100))
+        self._score = int((weightedLength + weightedCharacters + weightedRarity) * (self.score_pwned()/100))
+
+    #Getter methods
+    def get_times_pwned(self):
+        return self._timesPwned
+    
+    def get_score(self):
+        return self._score
 
 
-    #Setter method
+    #Setter methods
     def update_password(self,new_password):
         self._password = new_password
