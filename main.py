@@ -17,6 +17,11 @@ app.set_grid(6,2)
 style = ttk.Style()
 style.theme_use('alt')
 
+
+#Instatiate PasswordChecker class
+passometer = PasswordChecker("")
+
+
 #Define functions
 #Update screen to display score
 def on_password_submit(event):
@@ -141,9 +146,5 @@ aboutWindow.add(aboutTitle,1,1,fill=True)
 aboutWindow.add(aboutText,2,1,fill=True,stretch=True)
 aboutWindow.add(aboutClose,3,1,valign="bottom")
 
-
-
-#Instatiate PasswordChecker class
-passometer = PasswordChecker(passwordInput.text)
 
 app.run()
