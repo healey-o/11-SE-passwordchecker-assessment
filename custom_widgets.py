@@ -57,6 +57,7 @@ class ColourProgressbar(ttk.Progressbar, gp.GooeyPieWidget):
         if not (0 <= value <= 100):
             raise ValueError('Progressbar value must be an integer between 0 and 100 (inclusive)')
         
+        #Custom colour based on amount of bar filled
         if value <= 25:
             self.style.configure("ColourProgress.Horizontal.TProgressbar", background='red')
         elif value <= 50:

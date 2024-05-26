@@ -5,13 +5,15 @@ from tkinter import ttk
 
 #Create app
 app = gp.GooeyPieApp('Password Checker')
-app.width = 400
+app.width = 500
 app.height = 350
 app.resizable_horizontal = False
 app.resizable_vertical = False
 
+
 #Create grid
 app.set_grid(6,2)
+app.set_column_weights(3,1)
 
 #Set tkinter theme
 style = ttk.Style()
@@ -91,9 +93,15 @@ title = gp.StyleLabel(app,"Pass-O-Meter")
 title.font_name = "Comic Sans MS"
 title.font_size = 20
 
-#Password input
-passwordLabel = gp.Label(app,"Enter Password:")
-passwordInput = gp.Secret(app)
+#Password input area
+passwordContainer = gp.Container(app)
+passwordContainer.set_grid(1,3)
+passwordContainer.set_column_weights(1,2,0)
+
+passwordLabel = gp.Label(passwordContainer,"Enter Password:")
+passwordInput = gp.Secret(passwordContainer)
+passwordVisibiltyBtn = gp.Button(passwordContainer,"Show",None)#Toggles password visibility
+
 passwordSubmit = gp.Button(app,"Scan Password",on_password_submit)
 
 #Score and feedback
@@ -105,6 +113,9 @@ feedbackText.text = f"""Length Score:
 Character Score:    
 Rarity Score:
 """
+
+#Copy password
+passwordCopyBtn = gp.Button(app,"Copy Password",None)
 
 #Add help/about buttons
 btnContainer = gp.Container(app)
@@ -135,12 +146,20 @@ aboutClose = gp.Button(aboutWindow, "Close",close_about)
 #Add widgets to grid
 app.add(title,1,1,align="center",column_span=2)
 
-app.add(passwordLabel,2,1,align="center")
-app.add(passwordInput,2,2,fill=True)
+app.add(passwordContainer,2,1,column_span=2,fill=True)
+
+passwordContainer.add(passwordLabel,1,1,align="center")
+passwordContainer.add(passwordInput,1,2,fill=True)
+passwordContainer.add(passwordVisibiltyBtn,1,3)
+
+
 app.add(passwordSubmit,3,1,fill=True,column_span=2)
 
 app.add(scoreDisplay,4,1,fill=True,column_span=2)
 app.add(feedbackText,5,1,fill=True,column_span=2)
+
+app.add(passwordCopyBtn,6,1,fill=True)
+
 app.add(btnContainer,6,2,fill=True)
 
 btnContainer.add(helpBtn,1,1,fill=True)
