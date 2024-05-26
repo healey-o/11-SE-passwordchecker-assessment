@@ -10,6 +10,12 @@ class PasswordChecker:
         #Total score
         self._score = 0
 
+        #List of possible scores for password
+        self.RATINGS = ["Very Weak","Weak","Strong","Very Strong"]
+
+        #The current password rating
+        self._current_rating = ""
+
         #Individual scores
         self._length_score = 0
         self._character_score = 0
@@ -99,6 +105,7 @@ class PasswordChecker:
         else:
             self._pwned_score = 100
 
+    #Combines all scores using weightings
     def combine_scores(self,lengthWeight,characterWeight,rarityWeight):
         totalWeight = lengthWeight + characterWeight + rarityWeight
         weightedLength = ((self._length_score/totalWeight)*lengthWeight)
@@ -109,6 +116,22 @@ class PasswordChecker:
         #The total score is the sum of the weighted scores
         #The score is out of 100, but if the password is breached, the score is calculated as if the return value of self.score_pwned() is the max score.
         self._score = int((weightedLength + weightedCharacters + weightedRarity) * (self._pwned_score/100))
+
+    #Give a rating based on score
+    def rate_password(self):
+        #The size of each rating 'bracket'
+        ratingSize = 100//len(self.RATINGS)
+
+        #Repeats until the score is lower than the current rating bracket
+        completed = False
+        for ratingBracket in range(1,len(self.RATINGS)+1):
+            if self._score <= ratingSize * ratingBracket and not completed:
+                self._current_rating = self.RATINGS[ratingBracket-1]
+                completed = True
+            
+
+
+        
 
     #Getter methods
     def get_times_pwned(self):
@@ -129,6 +152,8 @@ class PasswordChecker:
     def get_pwned_score(self):
         return self._pwned_score
 
+    def get_rating(self):
+        return self._current_rating
 
     #Setter methods
     def update_password(self,new_password):

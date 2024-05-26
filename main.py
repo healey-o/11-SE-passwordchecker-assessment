@@ -37,7 +37,9 @@ def on_password_submit(event):
         passometer.score_rarity()
         passometer.score_pwned()
         #Calculate final score
-        passometer.combine_scores(2,3,1) #Weights to be adjusted
+        passometer.combine_scores(4,5,1)
+
+        passometer.rate_password()
 
         scoreDisplay.value = passometer.get_score()
 
@@ -106,7 +108,7 @@ title.font_size = 20
 #Password input area
 passwordContainer = gp.Container(app)
 passwordContainer.set_grid(1,3)
-passwordContainer.set_column_weights(1,2,0)
+passwordContainer.set_column_weights(0,1,0)
 
 passwordLabel = gp.Label(passwordContainer,"Enter Password:")
 passwordInput = gp.Secret(passwordContainer)
@@ -158,12 +160,12 @@ app.add(title,1,1,align="center",column_span=2)
 
 app.add(passwordContainer,2,1,column_span=2,fill=True)
 
-passwordContainer.add(passwordLabel,1,1,align="center")
-passwordContainer.add(passwordInput,1,2,fill=True)
+passwordContainer.add(passwordLabel,1,1,align="center",stretch=True)
+passwordContainer.add(passwordInput,1,2,fill=True,stretch=True)
 passwordContainer.add(passwordVisibiltyBtn,1,3)
 
 
-app.add(passwordSubmit,3,1,fill=True,column_span=2)
+app.add(passwordSubmit,3,1,fill=True,column_span=2,stretch=True)
 
 app.add(scoreDisplay,4,1,fill=True,column_span=2)
 app.add(feedbackText,5,1,fill=True,column_span=2)
