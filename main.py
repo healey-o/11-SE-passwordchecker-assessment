@@ -60,7 +60,17 @@ Rarity Score: {passometer.get_rarity_score()}
 Character Score:
 Rarity Score:
 """
-        
+
+#Toggle password masking
+def toggle_password_mask(event):
+    passwordInput.toggle()
+    if passwordVisibiltyBtn.text == "Show":
+        passwordVisibiltyBtn.text = "Hide"
+    else:
+        passwordVisibiltyBtn.text = "Show"
+
+
+      
 #Open subwindows
 def open_help(event):
     helpWindow.show_on_top()
@@ -100,7 +110,7 @@ passwordContainer.set_column_weights(1,2,0)
 
 passwordLabel = gp.Label(passwordContainer,"Enter Password:")
 passwordInput = gp.Secret(passwordContainer)
-passwordVisibiltyBtn = gp.Button(passwordContainer,"Show",None)#Toggles password visibility
+passwordVisibiltyBtn = gp.Button(passwordContainer,"Show",toggle_password_mask)#Toggles password masking
 
 passwordSubmit = gp.Button(app,"Scan Password",on_password_submit)
 

@@ -45,14 +45,14 @@ class PasswordChecker:
     #Methods - 'score' functions return an integer between 0-100
     def score_length(self): #Scores based on password length
 
-        #Strongest password length is >= 
+        #Scores based on length using an exponential function
         self._length_score = min(math.ceil((2**len(self._password))/40)+5*len(self._password),100)
 
     def score_characters(self): #Scores based on special characters/number used
-        self._length_score = 0
-        self._character_score = 0
-        self._rarity_score = 0
-        self._pwned_score = 0
+        self._numberCount = 0
+        self._upperCount = 0
+        self._lowerCount = 0
+        self._specialCount = 0
         
         for char in self._password:
             if char.isnumeric():
