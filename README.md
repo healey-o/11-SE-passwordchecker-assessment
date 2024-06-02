@@ -11,4 +11,4 @@ Simply enter your password into the provided text box and select the "Scan Passw
 ## Requirements
 - Python 3.12.1 or later
 - gooeypie Python library (www.gooeypie.dev)
-- pyhibp Python library (pypi.org/project/pyhibp)
+- pyhibp Python library (www.pypi.org/project/pyhibp)
