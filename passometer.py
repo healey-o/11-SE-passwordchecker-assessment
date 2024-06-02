@@ -3,10 +3,11 @@ import custom_widgets as cw
 from passwordchecker import PasswordChecker
 from tkinter import ttk
 
+
 #Create app
 app = gp.GooeyPieApp('Password Checker')
 app.width = 500
-app.height = 500
+app.height = 425
 app.resizable_horizontal = False
 app.resizable_vertical = False
 
@@ -110,7 +111,7 @@ feedbackText = gp.Label(app, "")
 
 #Add text to feedback
 feedbackText.text = ""
-feedbackText.width = 82
+feedbackText.width = 78
 feedbackText.wrap = True
 
 #Copy password
