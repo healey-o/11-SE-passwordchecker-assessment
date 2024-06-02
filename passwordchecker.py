@@ -3,6 +3,7 @@ import pyhibp
 import sqlite3
 import math
 
+
 class PasswordChecker:
     def __init__(self,password):
         self._password = "password"
@@ -16,7 +17,7 @@ class PasswordChecker:
         #The current password rating
         self._current_rating = ""
 
-        #Individual scores
+        #Individual scores for character types
         self._length_score = 0
         self._character_score = 0
         self._rarity_score = 0
@@ -130,8 +131,63 @@ class PasswordChecker:
                 completed = True
             
 
+    #Generates feedback based on score
+    def generate_feedback(self):
+        feedback = ""
 
-        
+        if self._score == 100:
+            feedback += "Your password has achieved the maximum score. You have a very secure paassword!"
+        else:
+            feedback += f"Your password is {self._current_rating.lower()}."
+            
+            #Stores score of each type of 'problem' (not including _pwned_score)
+            problems = [self._length_score, self._character_score, self._rarity_score]
+            
+            #Report on the haveibeenpwned status
+            if self.get_times_pwned():
+                feedback += (f"\nWARNING: Your password has been breached {self.get_times_pwned()} times!")
+            elif self.get_times_pwned() == None:
+                feedback += (f"\nThe Have I Been Pwned API cannot be accessed. To determine whether your password has been breached, please try again later.")
+            else:
+                feedback += (f"\nYour password has not been breached.")
+            
+            #Check if any other issues are present
+
+            #Length
+            if problems[0] < 50:
+                feedback += "\nYour password is very short. It could be strengthened greatly by making it longer."
+            elif problems[1] < 100:
+                feedback += "\nYour password is moderately long, but would be stronger if it was slightly longer."
+            
+            #Character variety
+            if problems[1] < 100:
+
+                if problems[1] < 50:
+                    feedback += "\nYou do not have a very large variety of characters in your password. "
+                else:
+                    feedback += "\nYou could strengthen your password by adding a lerger variety of characters. "
+
+                #Get all types of characters and their corresponding names
+                characterTypes = {"special character":self._specialCount,"number":self._numberCount,"uppercase letter":self._upperCount,"lowercase letter":self._lowerCount}
+                
+
+                #Check each type of character
+                for characterType in characterTypes:
+                    if characterTypes[characterType] <= 0:
+                        feedback += f"You do not have any {characterType}s. "
+
+                    elif characterTypes[characterType] == 1:
+                        feedback += f"You only have one {characterType}. "
+
+            #Rarity
+            if problems[2] < 100:
+                feedback += f"\nYour password is very commonly used. Try to create a more unique password."
+                    
+            
+
+        return feedback
+
+
 
     #Getter methods
     def get_times_pwned(self):

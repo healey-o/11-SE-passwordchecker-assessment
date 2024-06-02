@@ -6,7 +6,7 @@ from tkinter import ttk
 #Create app
 app = gp.GooeyPieApp('Password Checker')
 app.width = 500
-app.height = 350
+app.height = 500
 app.resizable_horizontal = False
 app.resizable_vertical = False
 
@@ -14,6 +14,7 @@ app.resizable_vertical = False
 #Create grid
 app.set_grid(6,2)
 app.set_column_weights(3,1)
+app.set_row_weights(0,0,0,0,1,0)
 
 #Set tkinter theme
 style = ttk.Style()
@@ -43,25 +44,12 @@ def on_password_submit(event):
 
         scoreDisplay.value = passometer.get_score()
 
-        feedbackText.text = f"""Length Score: {passometer.get_length_score()}
-Character Score: {passometer.get_character_score()}
-Rarity Score: {passometer.get_rarity_score()}
-"""
-        
-        if passometer.get_times_pwned():
-            feedbackText.text += (f"\nWARNING: Password has been breached {passometer.get_times_pwned()} times!")
-        elif passometer.get_times_pwned() == None:
-            feedbackText.text += (f"\nAPI unavailiable - Cannot check if password is breached.")
-        else:
-            feedbackText.text += (f"\nPassword has not been breached.")
+        feedbackText.text = passometer.generate_feedback()
         
     else:
         #Do not check score of empty string
         scoreDisplay.value = 0
-        feedbackText.text = f"""Length Score:
-Character Score:
-Rarity Score:
-"""
+        feedbackText.text = ""
 
 #Toggle password masking
 def toggle_password_mask(event):
@@ -121,10 +109,9 @@ scoreDisplay = cw.ColourProgressbar(app,'determinate')
 feedbackText = gp.Label(app, "")
 
 #Add text to feedback
-feedbackText.text = f"""Length Score:
-Character Score:    
-Rarity Score:
-"""
+feedbackText.text = ""
+feedbackText.width = 82
+feedbackText.wrap = True
 
 #Copy password
 passwordCopyBtn = gp.Button(app,"Copy Password",None)
