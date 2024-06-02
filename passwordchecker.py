@@ -145,27 +145,27 @@ class PasswordChecker:
             
             #Report on the haveibeenpwned status
             if self.get_times_pwned():
-                feedback += (f"\nWARNING: Your password has been breached {self.get_times_pwned()} times!")
+                feedback += (f"\n\nWARNING: Your password has been breached {self.get_times_pwned()} times!")
             elif self.get_times_pwned() == None:
-                feedback += (f"\nThe Have I Been Pwned API cannot be accessed. To determine whether your password has been breached, please try again later.")
+                feedback += (f"\n\nThe Have I Been Pwned API cannot be accessed. To determine whether your password has been breached, please try again later.")
             else:
-                feedback += (f"\nYour password has not been breached.")
+                feedback += (f"\n\nYour password has not been breached.")
             
             #Check if any other issues are present
 
             #Length
             if problems[0] < 50:
-                feedback += "\nYour password is very short. It could be strengthened greatly by making it longer."
+                feedback += "\n\nYour password is very short. It could be strengthened greatly by making it longer."
             elif problems[1] < 100:
-                feedback += "\nYour password is moderately long, but would be stronger if it was slightly longer."
+                feedback += "\n\nYour password is moderately long, but would be stronger if it was slightly longer."
             
             #Character variety
             if problems[1] < 100:
 
                 if problems[1] < 50:
-                    feedback += "\nYou do not have a very large variety of characters in your password. "
+                    feedback += "\n\nYou do not have a very large variety of characters in your password. "
                 else:
-                    feedback += "\nYou could strengthen your password by adding a lerger variety of characters. "
+                    feedback += "\n\nYou could strengthen your password by adding a larger variety of characters. "
 
                 #Get all types of characters and their corresponding names
                 characterTypes = {"special character":self._specialCount,"number":self._numberCount,"uppercase letter":self._upperCount,"lowercase letter":self._lowerCount}
@@ -181,7 +181,7 @@ class PasswordChecker:
 
             #Rarity
             if problems[2] < 100:
-                feedback += f"\nYour password is very commonly used. Try to create a more unique password."
+                feedback += f"\n\nYour password is very commonly used. Try to create a more unique password."
                     
             
 
