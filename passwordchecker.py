@@ -136,7 +136,7 @@ class PasswordChecker:
         feedback = ""
 
         if self._score == 100:
-            feedback += "Your password has achieved the maximum score. You have a very secure paassword!"
+            feedback += "Your password has achieved the maximum score. You have a very secure password!"
         else:
             feedback += f"Your password is {self._current_rating.lower()}."
             
@@ -165,19 +165,45 @@ class PasswordChecker:
                 if problems[1] < 50:
                     feedback += "\n\nYou do not have a very large variety of characters in your password. "
                 else:
-                    feedback += "\n\nYou could strengthen your password by adding a larger variety of characters. "
+                    feedback += "\n\nYou could strengthen your password by adding a few more different characters. "
 
                 #Get all types of characters and their corresponding names
                 characterTypes = {"special character":self._specialCount,"number":self._numberCount,"uppercase letter":self._upperCount,"lowercase letter":self._lowerCount}
                 
+                
 
                 #Check each type of character
+
+                unusedTypes = []#Stores types of character that are not used
+
+                singleUseTypes = []#Stores types of character that are only used once
+
                 for characterType in characterTypes:
                     if characterTypes[characterType] <= 0:
-                        feedback += f"You do not have any {characterType}s. "
+                        unusedTypes.append(characterType)
 
                     elif characterTypes[characterType] == 1:
-                        feedback += f"You only have one {characterType}. "
+                        singleUseTypes.append(characterType)
+                
+                if len(unusedTypes) > 0:
+
+                    if len(unusedTypes) > 1:
+                        #Add grammar between characters
+                        unusedString = "s, ".join(unusedTypes[:len(unusedTypes)-1:]) + "s or " + unusedTypes[len(unusedTypes)-1]
+                    else:
+                        unusedString = unusedTypes[0]
+                    
+                    feedback += f"You have not used any {unusedString}s. "
+
+                if len(singleUseTypes) > 0:
+
+                    if len(singleUseTypes) > 1:
+                        #Add grammar between characters
+                        singleUsedString = ", ".join(singleUseTypes[:len(singleUseTypes)-1:]) + " and " + singleUseTypes[len(singleUseTypes)-1]
+                    else:
+                        singleUsedString = singleUseTypes[0]
+                    
+                    feedback += f"You have only used one {singleUsedString}. "
 
             #Rarity
             if problems[2] < 100:
