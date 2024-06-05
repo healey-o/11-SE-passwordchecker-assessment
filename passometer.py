@@ -19,7 +19,6 @@ app.set_row_weights(0,0,0,0,1,0)
 
 #Set tkinter theme
 style = ttk.Style()
-style.theme_use('alt')
 
 
 
@@ -134,7 +133,11 @@ helpTitle = gp.StyleLabel(helpWindow,"Help")
 helpTitle.font_size = 20
 helpTitle.font_name = "Times New Roman"
 
-helpText = gp.Label(helpWindow, "Pass-O-Meter can score your password's security and give feedback based on the results. Simply enter your password into the prompted area, and press [Scan Password] when ready.")
+helpText = gp.Label(helpWindow, """Pass-O-Meter can score your password's security and give feedback based on the results.
+Simply enter your password into the prompted textbox, and press [Scan Password] when ready.
+The app will score your password and give feedback on how to improve it if necessary.""")
+
+
 helpText.width = 78
 helpText.wrap = True
 
