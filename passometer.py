@@ -22,6 +22,7 @@ style = ttk.Style()
 style.theme_use('alt')
 
 
+
 #Instatiate PasswordChecker class
 passometer = PasswordChecker("")
 
@@ -117,7 +118,8 @@ feedbackText.width = 78
 feedbackText.wrap = True
 
 #Copy password
-passwordCopyBtn = gp.Button(app,"Copy Password",None)
+passwordCopyBtn = gp.Button(app,"Copy Password (Coming Soon)",None)
+passwordCopyBtn.disabled = True
 
 #Add help/about buttons
 btnContainer = gp.Container(app)
