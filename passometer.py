@@ -50,7 +50,7 @@ def on_password_submit(event):
     else:
         #Do not check score of empty string
         scoreDisplay.value = 0
-        feedbackText.text = ""
+        feedbackText.text = "Please enter a password to recieve feedback."
 
 #Toggle password masking
 def toggle_password_mask(event):
@@ -81,12 +81,14 @@ helpWindow = gp.Window(app, 'Help')
 helpWindow.width = 400
 helpWindow.height = 300
 helpWindow.set_grid(3, 1)
+helpWindow.set_row_weights(0,1,0)
 
 #About
 aboutWindow = gp.Window(app, 'About')
 aboutWindow.width = 400
 aboutWindow.height = 300
 aboutWindow.set_grid(3, 1)
+aboutWindow.set_row_weights(0,1,0)
 
 #Create widgets
 #Title
@@ -110,7 +112,7 @@ scoreDisplay = cw.ColourProgressbar(app,'determinate')
 feedbackText = gp.Label(app, "")
 
 #Add text to feedback
-feedbackText.text = ""
+feedbackText.text = "Please enter a password to recieve feedback."
 feedbackText.width = 78
 feedbackText.wrap = True
 
@@ -130,7 +132,9 @@ helpTitle = gp.StyleLabel(helpWindow,"Help")
 helpTitle.font_size = 20
 helpTitle.font_name = "Times New Roman"
 
-helpText = gp.Label(helpWindow, "...")
+helpText = gp.Label(helpWindow, "Pass-O-Meter can score your password's security and give feedback based on the results. Simply enter your password into the prompted area, and press [Scan Password] when ready.")
+helpText.width = 78
+helpText.wrap = True
 
 helpClose = gp.Button(helpWindow, "Close",close_help)
 
@@ -139,7 +143,9 @@ aboutTitle = gp.StyleLabel(aboutWindow,"About")
 aboutTitle.font_size = 20
 aboutTitle.font_name = "Times New Roman"
 
-aboutText = gp.Label(aboutWindow, "...")
+aboutText = gp.Label(aboutWindow, "Pass-O-Meter was developed by Oliver Healey and it has been released using a MIT License. It was created for a Year 11 Software Engineering assessment task, using Python. The app was constructed using the gooeypie GUI library, as well as a pyhibp, a python library that allows access to the Have I Been Pwned? library.")
+aboutText.width = 78
+aboutText.wrap = True
 
 aboutClose = gp.Button(aboutWindow, "Close",close_about)
 
@@ -166,12 +172,12 @@ btnContainer.add(helpBtn,1,1,fill=True)
 btnContainer.add(aboutBtn,1,2,fill=True)
 
 helpWindow.add(helpTitle,1,1,fill=True)
-helpWindow.add(helpText,2,1,fill=True,stretch=True)
-helpWindow.add(helpClose,3,1,valign="bottom")
+helpWindow.add(helpText,2,1,fill=True)
+helpWindow.add(helpClose,3,1,valign="bottom",align="center")
 
 aboutWindow.add(aboutTitle,1,1,fill=True)
-aboutWindow.add(aboutText,2,1,fill=True,stretch=True)
-aboutWindow.add(aboutClose,3,1,valign="bottom")
+aboutWindow.add(aboutText,2,1,fill=True)
+aboutWindow.add(aboutClose,3,1,valign="bottom",align="center")
 
 
 app.run()
