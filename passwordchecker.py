@@ -53,7 +53,7 @@ class PasswordChecker:
     def score_length(self): #Scores based on password length
 
         #Scores based on length using an exponential function
-        self._length_score = min(math.ceil((2**len(self._password))/40)+5*len(self._password),100)
+        self._length_score = min(math.ceil((2**len(self._password))/40)+10*len(self._password),100)
 
     def score_characters(self): #Scores based on special characters/number used
         self._numberCount = 0
@@ -156,7 +156,7 @@ class PasswordChecker:
             #Length
             if problems[0] < 50:
                 feedback += "\n\nYour password is very short. It could be strengthened greatly by making it longer."
-            elif problems[1] < 100:
+            elif problems[0] < 100:
                 feedback += "\n\nYour password is moderately long, but would be stronger if it was slightly longer."
             
             #Character variety
