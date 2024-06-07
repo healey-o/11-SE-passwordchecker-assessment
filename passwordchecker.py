@@ -105,18 +105,27 @@ class PasswordChecker:
             self._pwned_score = max((100 - self._timesPwned / 5),0)
         else:
             self._pwned_score = 100
+    
+    def contains_password(self):
+        if "password" in self._password.lower():
+            return True
+        else:
+            return False
 
     #Combines all scores using weightings
     def combine_scores(self,lengthWeight,characterWeight,rarityWeight):
-        totalWeight = lengthWeight + characterWeight + rarityWeight
-        weightedLength = ((self._length_score/totalWeight)*lengthWeight)
-        weightedCharacters = ((self._character_score/totalWeight)*characterWeight)
-        weightedRarity = ((self._rarity_score/totalWeight)*rarityWeight)
+        if self.contains_password():
+            self._score = 0
+        else:
+            totalWeight = lengthWeight + characterWeight + rarityWeight
+            weightedLength = ((self._length_score/totalWeight)*lengthWeight)
+            weightedCharacters = ((self._character_score/totalWeight)*characterWeight)
+            weightedRarity = ((self._rarity_score/totalWeight)*rarityWeight)
 
         
         #The total score is the sum of the weighted scores
         #The score is out of 100, but if the password is breached, the score is calculated as if the return value of self.score_pwned() is the max score.
-        self._score = int((weightedLength + weightedCharacters + weightedRarity) * (self._pwned_score/100))
+            self._score = int((weightedLength + weightedCharacters + weightedRarity) * (self._pwned_score/100))
 
     #Give a rating based on score
     def rate_password(self):
@@ -135,7 +144,9 @@ class PasswordChecker:
     def generate_feedback(self):
         feedback = ""
 
-        if self._score == 100:
+        if self.contains_password():
+            feedback += "Don't put 'password' in your password. That's just lazy."
+        elif self._score == 100:
             feedback += "Your password has achieved the maximum score. You have a very secure password!"
         else:
             feedback += f"Your password is {self._current_rating.lower()}."
