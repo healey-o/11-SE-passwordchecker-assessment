@@ -10,6 +10,7 @@ app.width = 500
 app.height = 500
 app.resizable_horizontal = False
 app.resizable_vertical = False
+app.set_icon("logo_32.png")
 
 
 #Create grid
