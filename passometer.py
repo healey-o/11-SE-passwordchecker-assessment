@@ -7,7 +7,7 @@ from tkinter import ttk
 #Create app
 app = gp.GooeyPieApp('Password Checker')
 app.width = 500
-app.height = 425
+app.height = 500
 app.resizable_horizontal = False
 app.resizable_vertical = False
 
