@@ -93,7 +93,7 @@ aboutWindow.set_row_weights(0,1,0)
 #Create widgets
 #Title
 title = gp.StyleLabel(app,"Pass-O-Meter")
-title.font_name = "Comic Sans MS"
+title.font_name = "Georgia"
 title.font_size = 20
 
 #Password input area
@@ -131,7 +131,7 @@ aboutBtn = gp.Button(btnContainer,"About",open_about)
 #Help
 helpTitle = gp.StyleLabel(helpWindow,"Help")
 helpTitle.font_size = 20
-helpTitle.font_name = "Times New Roman"
+helpTitle.font_name = "Georgia"
 
 helpText = gp.Label(helpWindow, """Pass-O-Meter can score your password's security and give feedback based on the results.
 Simply enter your password into the prompted textbox, and press [Scan Password] when ready.
@@ -146,7 +146,7 @@ helpClose = gp.Button(helpWindow, "Close",close_help)
 #About
 aboutTitle = gp.StyleLabel(aboutWindow,"About")
 aboutTitle.font_size = 20
-aboutTitle.font_name = "Times New Roman"
+aboutTitle.font_name = "Georgia"
 
 aboutText = gp.Label(aboutWindow, "Pass-O-Meter was developed by Oliver Healey and it has been released using a MIT License. It was created for a Year 11 Software Engineering assessment task, using Python. The app was constructed using the gooeypie GUI library, as well as a pyhibp, a python library that allows access to the Have I Been Pwned? library.")
 aboutText.width = 78
