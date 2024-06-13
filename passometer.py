@@ -39,7 +39,7 @@ def on_password_submit(event):
         passometer.score_rarity()
         passometer.score_pwned()
         #Calculate final score
-        passometer.combine_scores(4,5,1)
+        passometer.combine_scores(5,4,2)
 
         passometer.rate_password()
 
