@@ -78,18 +78,18 @@ def close_about(event):
 
 #Create subwindows
 #Help
-helpWindow = gp.Window(app, 'Help')
+helpWindow = gp.Window(app, '❓ Help')
 helpWindow.width = 400
 helpWindow.height = 300
 helpWindow.set_grid(3, 1)
 helpWindow.set_row_weights(0,1,0)
 
 #About
-aboutWindow = gp.Window(app, 'About')
+aboutWindow = gp.Window(app, 'ℹ️ About')
 aboutWindow.width = 400
 aboutWindow.height = 300
-aboutWindow.set_grid(3, 1)
-aboutWindow.set_row_weights(0,1,0)
+aboutWindow.set_grid(5, 1)
+aboutWindow.set_row_weights(0,1,0,0,0)
 
 #Create widgets
 #Title
@@ -125,8 +125,8 @@ passwordCopyBtn.disabled = True
 btnContainer = gp.Container(app)
 btnContainer.set_grid(1,2)
 
-helpBtn = gp.Button(btnContainer,"Help",open_help)
-aboutBtn = gp.Button(btnContainer,"About",open_about)
+helpBtn = gp.Button(btnContainer,"❓ Help",open_help)
+aboutBtn = gp.Button(btnContainer,"ℹ️ About",open_about)
 
 #Subwindow widgets
 #Help
@@ -149,9 +149,12 @@ aboutTitle = gp.StyleLabel(aboutWindow,"About")
 aboutTitle.font_size = 20
 aboutTitle.font_name = "Georgia"
 
-aboutText = gp.Label(aboutWindow, "Pass-O-Meter was developed by Oliver Healey and it has been released using a MIT License. It was created for a Year 11 Software Engineering assessment task, using Python. The app was constructed using the gooeypie GUI library, as well as a pyhibp, a python library that allows access to the Have I Been Pwned? library.")
+aboutText = gp.Label(aboutWindow, "Pass-O-Meter was developed by Oliver Healey and it has been released using a MIT License. It was created for a Year 11 Software Engineering assessment task, using Python. The app was constructed using the gooeypie GUI library, as well as a pyhibp, a python library that allows access to the Have I Been Pwned? library.\nLinks:")
 aboutText.width = 78
 aboutText.wrap = True
+
+gooeypieLink = gp.Hyperlink(aboutWindow, "GooeyPie","https://www.gooeypie.dev/about")
+pyhibpLink = gp.Hyperlink(aboutWindow, "pyHIBP (pyHave I Been Pwned)", "https://pypi.org/project/pyhibp/")
 
 aboutClose = gp.Button(aboutWindow, "Close",close_about)
 
@@ -183,7 +186,9 @@ helpWindow.add(helpClose,3,1,valign="bottom",align="center")
 
 aboutWindow.add(aboutTitle,1,1,fill=True)
 aboutWindow.add(aboutText,2,1,fill=True)
-aboutWindow.add(aboutClose,3,1,valign="bottom",align="center")
+aboutWindow.add(gooeypieLink,3,1)
+aboutWindow.add(pyhibpLink,4,1)
+aboutWindow.add(aboutClose,5,1,valign="bottom",align="center")
 
 
 app.run()
