@@ -1,7 +1,12 @@
-from pyhibp import pwnedpasswords as pw
-import pyhibp
 import sqlite3
 import math
+
+#Attempt to install pyhibp
+try:
+    from pyhibp import pwnedpasswords
+    import pyhibp
+except ImportError:
+    pass
 
 
 class PasswordChecker:
@@ -12,7 +17,7 @@ class PasswordChecker:
         self._score = 0
 
         #List of possible scores for password
-        self.RATINGS = ["Very Weak","Weak","Strong","Very Strong"]
+        self.RATINGS = ["Very Weak","Weak","Moderately Strong","Very Strong"]
 
         #The current password rating
         self._current_rating = ""
@@ -33,12 +38,15 @@ class PasswordChecker:
         self._passwordsConnection = sqlite3.connect("common_passwords.db")
         self._cursor = self._passwordsConnection.cursor()
 
-        #Initialise pyhibp
-        pyhibp.set_user_agent(ua="Pass-O-Meter/A simple password secuirty analysing program.")
+        
 
         #Check if pyhibp can be accessed
         try:
-            self._timesPwned = pw.is_password_breached(password=self._password)
+
+            #Initialise pyhibp
+            pyhibp.set_user_agent(ua="Pass-O-Meter/A simple password secuirty analysing program.")
+
+            self._timesPwned = pwnedpasswords.is_password_breached(password=self._password)
             self._pyhibpAvailiable = True 
         except:
             self._timesPwned = None
@@ -100,7 +108,7 @@ class PasswordChecker:
         if self._pyhibpAvailiable:
 
             #Gets the number of times breached
-            self._timesPwned = pw.is_password_breached(password=self._password)
+            self._timesPwned = pwnedpasswords.is_password_breached(password=self._password)
 
             self._pwned_score = max((100 - self._timesPwned / 5),0)
         else:
@@ -228,6 +236,9 @@ class PasswordChecker:
 
 
     #Getter methods
+    def get_password(self):
+        return self._password
+
     def get_times_pwned(self):
         return self._timesPwned
     

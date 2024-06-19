@@ -4,6 +4,15 @@ from passwordchecker import PasswordChecker
 from tkinter import ttk
 
 
+pyperclipInstalled = True
+
+try:
+    import pyperclip
+except ImportError:
+    pyperclipInstalled = False
+
+
+
 #Create app
 app = gp.GooeyPieApp('Password Checker')
 app.width = 500
@@ -29,7 +38,7 @@ passometer = PasswordChecker("")
 
 #Define functions
 #Update screen to display score
-def on_password_submit(event):
+def OnPasswordSubmit(event):
     if passwordInput.text != "":
         #Update password checker, then display results
         passometer.update_password(passwordInput.text)
@@ -40,21 +49,34 @@ def on_password_submit(event):
         passometer.score_rarity()
         passometer.score_pwned()
         #Calculate final score
-        passometer.combine_scores(5,4,2)
+        passometer.combine_scores(3,4,1)
 
         passometer.rate_password()
 
         scoreDisplay.value = passometer.get_score()
 
         feedbackText.text = passometer.generate_feedback()
+
+        if pyperclipInstalled:
+            if passometer.get_score() >= 80:
+                passwordCopyBtn.text = "Copy Password"
+                passwordCopyBtn.disabled = False
+            else:
+                passwordCopyBtn.text = "Password Too Weak to Copy"
+                passwordCopyBtn.disabled = True
+            
         
     else:
         #Do not check score of empty string
         scoreDisplay.value = 0
         feedbackText.text = "Please enter a password to recieve feedback."
 
+        if pyperclipInstalled:
+            passwordCopyBtn.text = "Enter Password to Copy"
+            passwordCopyBtn.disabled = True
+
 #Toggle password masking
-def toggle_password_mask(event):
+def TogglePasswordMask(event):
     passwordInput.toggle()
     if passwordVisibiltyBtn.text == "Show":
         passwordVisibiltyBtn.text = "Hide"
@@ -64,17 +86,21 @@ def toggle_password_mask(event):
 
       
 #Open subwindows
-def open_help(event):
+def OpenHelp(event):
     helpWindow.show_on_top()
 
-def open_about(event):
+def OpenAbout(event):
     aboutWindow.show_on_top()
 
-def close_help(event):
+def CloseHelp(event):
     helpWindow.hide()
 
-def close_about(event):
+def CloseAbout(event):
     aboutWindow.hide()
+
+#Copy password to clipboard - only runs if pyperclip installed
+def CopyPassword(event):
+    pyperclip.copy(passometer.get_password())
 
 #Create subwindows
 #Help
@@ -88,8 +114,8 @@ helpWindow.set_row_weights(0,1,0)
 aboutWindow = gp.Window(app, 'ℹ️ About')
 aboutWindow.width = 400
 aboutWindow.height = 300
-aboutWindow.set_grid(5, 1)
-aboutWindow.set_row_weights(0,1,0,0,0)
+aboutWindow.set_grid(6, 1)
+aboutWindow.set_row_weights(0,1,0,0,0,0)
 
 #Create widgets
 #Title
@@ -104,9 +130,9 @@ passwordContainer.set_column_weights(0,1,0)
 
 passwordLabel = gp.Label(passwordContainer,"Enter Password:")
 passwordInput = gp.Secret(passwordContainer)
-passwordVisibiltyBtn = gp.Button(passwordContainer,"Show",toggle_password_mask)#Toggles password masking
+passwordVisibiltyBtn = gp.Button(passwordContainer,"Show",TogglePasswordMask)#Toggles password masking
 
-passwordSubmit = gp.Button(app,"Scan Password",on_password_submit)
+passwordSubmit = gp.Button(app,"Scan Password",OnPasswordSubmit)
 
 #Score and feedback
 scoreDisplay = cw.ColourProgressbar(app,'determinate')
@@ -118,15 +144,18 @@ feedbackText.width = 78
 feedbackText.wrap = True
 
 #Copy password
-passwordCopyBtn = gp.Button(app,"Copy Password (Coming Soon)",None)
+if pyperclipInstalled:
+    passwordCopyBtn = gp.Button(app,"Enter Password to Copy", CopyPassword)
+else:
+    passwordCopyBtn = gp.Button(app,"Install pyperclip to Copy", CopyPassword)
 passwordCopyBtn.disabled = True
 
 #Add help/about buttons
 btnContainer = gp.Container(app)
 btnContainer.set_grid(1,2)
 
-helpBtn = gp.Button(btnContainer,"❓ Help",open_help)
-aboutBtn = gp.Button(btnContainer,"ℹ️ About",open_about)
+helpBtn = gp.Button(btnContainer,"❓ Help",OpenHelp)
+aboutBtn = gp.Button(btnContainer,"ℹ️ About",OpenAbout)
 
 #Subwindow widgets
 #Help
@@ -136,27 +165,28 @@ helpTitle.font_name = "Georgia"
 
 helpText = gp.Label(helpWindow, """Pass-O-Meter can score your password's security and give feedback based on the results.
 Simply enter your password into the prompted textbox, and press [Scan Password] when ready.
-The app will score your password and give feedback on how to improve it if necessary.""")
+The app will score your password and give feedback on how to improve it if necessary, and allow you to copy the password once a high enough score has been reached.""")
 
 
 helpText.width = 78
 helpText.wrap = True
 
-helpClose = gp.Button(helpWindow, "Close",close_help)
+helpClose = gp.Button(helpWindow, "Close",CloseHelp)
 
 #About
 aboutTitle = gp.StyleLabel(aboutWindow,"About")
 aboutTitle.font_size = 20
 aboutTitle.font_name = "Georgia"
 
-aboutText = gp.Label(aboutWindow, "Pass-O-Meter was developed by Oliver Healey and it has been released using a MIT License. It was created for a Year 11 Software Engineering assessment task, using Python. The app was constructed using the gooeypie GUI library, as well as a pyhibp, a python library that allows access to the Have I Been Pwned? library.\nLinks:")
+aboutText = gp.Label(aboutWindow, "Pass-O-Meter was developed by Oliver Healey and it has been released using a MIT License. It was created for a Year 11 Software Engineering assessment task, using Python. The app was constructed using the gooeypie GUI library, as well as a pyhibp, a python library that allows access to the Have I Been Pwned? library. The pyperclip library can ooptionally be used to allow easy copying of strong passwords.\nLinks:")
 aboutText.width = 78
 aboutText.wrap = True
 
 gooeypieLink = gp.Hyperlink(aboutWindow, "GooeyPie","https://www.gooeypie.dev/about")
 pyhibpLink = gp.Hyperlink(aboutWindow, "pyHIBP (pyHave I Been Pwned)", "https://pypi.org/project/pyhibp/")
+pyperclipLink = gp.Hyperlink(aboutWindow, "pyperclip", "https://pypi.org/project/pyperclip/")
 
-aboutClose = gp.Button(aboutWindow, "Close",close_about)
+aboutClose = gp.Button(aboutWindow, "Close",CloseAbout)
 
 #Add widgets to grid
 app.add(title,1,1,align="center",column_span=2)
@@ -188,7 +218,8 @@ aboutWindow.add(aboutTitle,1,1,fill=True)
 aboutWindow.add(aboutText,2,1,fill=True)
 aboutWindow.add(gooeypieLink,3,1)
 aboutWindow.add(pyhibpLink,4,1)
-aboutWindow.add(aboutClose,5,1,valign="bottom",align="center")
+aboutWindow.add(pyperclipLink,5,1)
+aboutWindow.add(aboutClose,6,1,valign="bottom",align="center")
 
 
 app.run()
