@@ -155,12 +155,13 @@ class PasswordChecker:
             problems = [self._length_score, self._character_score, self._rarity_score]
             
             #Report on the haveibeenpwned status
-            if self.get_times_pwned():
-                feedback += (f"\n\nWARNING: Your password has been breached {self.get_times_pwned()} times!")
-            elif self.get_times_pwned() == None:
-                feedback += (f"\n\nThe Have I Been Pwned API cannot be accessed. To determine whether your password has been breached, please try again later.")
+            if self._pyhibpAvailiable:
+                if self.get_times_pwned():
+                    feedback += (f"\n\nWARNING: Your password has been breached {self.get_times_pwned()} times!")
+                else:
+                    feedback += (f"\n\nYour password has not been breached.")
             else:
-                feedback += (f"\n\nYour password has not been breached.")
+                feedback += (f"\n\nThe Have I Been Pwned API cannot be accessed. To determine whether your password has been breached, please try again later, or install the pyHIBP library if it is not installed.")
             
             #Check if any other issues are present
 
