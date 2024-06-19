@@ -2,6 +2,7 @@ import gooeypie as gp
 import custom_widgets as cw
 from passwordchecker import PasswordChecker
 from tkinter import ttk
+import random
 
 
 pyperclipInstalled = True
@@ -98,6 +99,21 @@ def CloseHelp(event):
 def CloseAbout(event):
     aboutWindow.hide()
 
+
+
+#Fancy Animation over title
+def HoverTitle(event):
+    colours = ['red','orange','green','blue','purple']
+    title.color = random.choice(colours)
+    title.font_style = 'italic'
+    title.font_weight = 'bold'
+
+def StopHover(event):
+    title.color = 'default'
+    title.font_style = 'normal'
+    title.font_weight = 'normal'
+
+
 #Copy password to clipboard - only runs if pyperclip installed
 def CopyPassword(event):
     pyperclip.copy(passometer.get_password())
@@ -122,6 +138,9 @@ aboutWindow.set_row_weights(0,1,0,0,0,0)
 title = gp.StyleLabel(app,"Pass-O-Meter")
 title.font_name = "Georgia"
 title.font_size = 20
+
+title.add_event_listener("mouse_over",HoverTitle)
+title.add_event_listener("mouse_out",StopHover)
 
 #Password input area
 passwordContainer = gp.Container(app)
