@@ -156,7 +156,6 @@ class PasswordChecker:
     #Generates feedback based on score
     def generate_feedback(self):
         feedback = ""
-        print(f"{self._length_score} {self._character_score} {self._rarity_score} {self._pwned_score}")
 
         if self.contains_password():
             feedback += "Don't put 'password' in your password. That's just lazy."
