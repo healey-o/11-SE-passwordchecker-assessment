@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://github.com/healey-o/11-SE-passwordchecker-assessment/blob/main/logo_64.png" alt="Pass-O-Meter Logo"/>
+</p>
+
 # Password Checker
 A python based password security checker made using Gooeypie. Created by Oliver Healey for a Year 11 Software Engineering Assessment Task.
 
@@ -14,5 +18,5 @@ Simply enter your password into the provided text box and select the "Scan Passw
     - www.gooeypie.dev
 - pyhibp Python library
     - www.pypi.org/project/pyhibp
-- pyperclip Python Library (Optional - Allows password to be copied)
+- pyperclip Python library (Optional - Allows password to be copied)
     - www.pypi.org/project/pyperclip
