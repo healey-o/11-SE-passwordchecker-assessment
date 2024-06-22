@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/healey-o/11-SE-passwordchecker-assessment/blob/main/logo_64.png" alt="Pass-O-Meter Logo"/>
+  <img src="https://github.com/healey-o/11-SE-passwordchecker-assessment/blob/main/logo_256.png" alt="Pass-O-Meter Logo"/>
 </p>
 
 # Password Checker
