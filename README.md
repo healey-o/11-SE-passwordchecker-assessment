@@ -15,4 +15,4 @@ Simply enter your password into the provided text box and select the "Scan Passw
 - pyhibp Python library
     - www.pypi.org/project/pyhibp
 - pyperclip Python Library (Optional - Allows password to be copied)
-    - www.pypi.org/project/pyhibp
+    - www.pypi.org/project/pyperclip
