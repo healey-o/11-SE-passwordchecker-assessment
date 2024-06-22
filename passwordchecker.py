@@ -29,10 +29,10 @@ class PasswordChecker:
         self._pwned_score = 0
 
         #Counter for types of charcters
-        self._specialCount = 0
-        self._numberCount = 0
-        self._upperCount = 0
-        self._lowerCount = 0
+        self._specialCount = []
+        self._numberCount = []
+        self._upperCount = []
+        self._lowerCount = []
 
         #Initialise connection to database at intit to decrease processing time later
         self._passwordsConnection = sqlite3.connect("common_passwords.db")
@@ -64,24 +64,26 @@ class PasswordChecker:
         self._length_score = min(math.ceil((2**len(self._password))/80)+5*len(self._password),100)
 
     def score_characters(self): #Scores based on special characters/number used
-        self._numberCount = 0
-        self._upperCount = 0
-        self._lowerCount = 0
-        self._specialCount = 0
+        self._numberCount = []
+        self._upperCount = []
+        self._lowerCount = []
+        self._specialCount = []
         
+        #Does not count duplicates of same character
         for char in self._password:
-            if char.isnumeric():
-                self._numberCount += 1
-            elif char.isupper():
-                self._upperCount += 1
-            elif char.islower():
-                self._lowerCount += 1
-            elif not char.isalnum():#If it is neither a number or letter, it is a special character
-                self._specialCount += 1
+            if char.isnumeric() and char not in self._numberCount:
+                self._numberCount.append(char)
+            elif char.isupper() and char not in self._upperCount:
+                self._upperCount.append(char)
+            elif char.islower() and char not in self._lowerCount:
+                self._lowerCount.append(char)
+            elif not char.isalnum() and char not in self._specialCount:#If it is neither a number or letter, it is a special character
+                self._specialCount.append(char)
         
         #Max score achieved by 2 of each type (numbers, uppercase, lowercase, special characters)
         #Second character of each type is worth less
-        self._character_score = min(25, self._numberCount * 20) + min(25, self._specialCount * 20) + min(25, self._upperCount * 30) + min(25, self._lowerCount * 30)
+        #Lowercase scores less
+        self._character_score = min(30, len(self._numberCount) * 17) + min(30, len(self._specialCount) * 17) + min(30, len(self._upperCount) * 17) + min(10, len(self._lowerCount) * 5)
 
     def score_rarity(self): #Scores on the commoness of the password
         #Access database and check for password
@@ -129,11 +131,14 @@ class PasswordChecker:
             weightedLength = ((self._length_score/totalWeight)*lengthWeight)
             weightedCharacters = ((self._character_score/totalWeight)*characterWeight)
             weightedRarity = ((self._rarity_score/totalWeight)*rarityWeight)
-
         
-        #The total score is the sum of the weighted scores
-        #The score is out of 100, but if the password is breached, the score is calculated as if the return value of self.score_pwned() is the max score.
+            #The total score is the sum of the weighted scores
+            #The score is out of 100, but if the password is breached, the score is calculated as if the return value of self.score_pwned() is the max score.
             self._score = int((weightedLength + weightedCharacters + weightedRarity) * (self._pwned_score/100))
+
+            #Decrease overall score if any individual score is extremely low
+            if self._length_score <= 20 or self._character_score <= 20 or self._rarity_score <= 20:
+                self._score /= 2
 
     #Give a rating based on score
     def rate_password(self):
@@ -151,6 +156,7 @@ class PasswordChecker:
     #Generates feedback based on score
     def generate_feedback(self):
         feedback = ""
+        print(f"{self._length_score} {self._character_score} {self._rarity_score} {self._pwned_score}")
 
         if self.contains_password():
             feedback += "Don't put 'password' in your password. That's just lazy."
@@ -188,7 +194,7 @@ class PasswordChecker:
                     feedback += "\n\nYou could strengthen your password by adding a few more different characters. "
 
                 #Get all types of characters and their corresponding names
-                characterTypes = {"special character":self._specialCount,"number":self._numberCount,"uppercase letter":self._upperCount,"lowercase letter":self._lowerCount}
+                characterTypes = {"special character":len(self._specialCount),"number":len(self._numberCount),"uppercase letter":len(self._upperCount),"lowercase letter":len(self._lowerCount)}
                 
                 
 
@@ -223,7 +229,7 @@ class PasswordChecker:
                     else:
                         singleUsedString = singleUseTypes[0]
                     
-                    feedback += f"You have only used one {singleUsedString}. "
+                    feedback += f"You have only used one type of {singleUsedString}. "
 
             #Rarity
             if problems[2] < 100:

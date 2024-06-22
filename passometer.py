@@ -50,7 +50,7 @@ def OnPasswordSubmit(event):
         passometer.score_rarity()
         passometer.score_pwned()
         #Calculate final score
-        passometer.combine_scores(3,4,1)
+        passometer.combine_scores(4,3,1)
 
         passometer.rate_password()
 
@@ -197,7 +197,7 @@ aboutTitle = gp.StyleLabel(aboutWindow,"About")
 aboutTitle.font_size = 20
 aboutTitle.font_name = "Georgia"
 
-aboutText = gp.Label(aboutWindow, "Pass-O-Meter was developed by Oliver Healey and it has been released using a MIT License. It was created for a Year 11 Software Engineering assessment task, using Python. The app was constructed using the gooeypie GUI library, as well as a pyhibp, a python library that allows access to the Have I Been Pwned? library. The pyperclip library can ooptionally be used to allow easy copying of strong passwords.\nLinks:")
+aboutText = gp.Label(aboutWindow, "Pass-O-Meter was developed by Oliver Healey and it has been released under a MIT License. It was created for a Year 11 Software Engineering assessment task, using Python. The app was constructed using the gooeypie GUI library, as well as a pyhibp, a python library that allows access to the Have I Been Pwned? library. The pyperclip library can ooptionally be used to allow easy copying of strong passwords.\nLinks:")
 aboutText.width = 78
 aboutText.wrap = True
 
@@ -238,7 +238,7 @@ aboutWindow.add(aboutText,2,1,fill=True)
 aboutWindow.add(gooeypieLink,3,1)
 aboutWindow.add(pyhibpLink,4,1)
 aboutWindow.add(pyperclipLink,5,1)
-aboutWindow.add(aboutClose,6,1,valign="bottom",align="center")
+aboutWindow.add(aboutClose,6,1,valign="bottom",align="center") 
 
 
 app.run()
