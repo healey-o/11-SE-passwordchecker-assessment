@@ -31,7 +31,7 @@ class ColourProgressbar(ttk.Progressbar, gp.GooeyPieWidget):
                       {'sticky': 'nswe',
                        'children': [('Horizontal.Progressbar.color.pbar',
                          {'side': 'left', 'sticky': 'ns'})]})])
-        self.style.configure("ColourProgress.Horizontal.TProgressbar", background='orange')
+        self.style.configure("ColourProgress.Horizontal.TProgressbar", background='orange', borderwidth=0)
 
         ttk.Progressbar.__init__(self, container, style="ColourProgress.Horizontal.TProgressbar", variable=self._value)
 
