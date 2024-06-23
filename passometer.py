@@ -34,7 +34,13 @@ else:
 app.height = 500
 app.resizable_horizontal = False
 app.resizable_vertical = False
-app.set_icon("logo_32.png")
+
+if everythingIsBreaking:
+    #Mac uses the icon image differently - replaces the normal Python icon everywhere instead of only the tiny corner icon
+    #This allows it to be able to use the higher-quality icon
+    app.set_icon("logo_256.png")
+else:
+    app.set_icon("logo_32.png")
 
 
 #Create grid
@@ -184,7 +190,7 @@ feedbackText.font_size = 10
 
 #Windows and Mac's text wrap appears to work differently - The window in Mac does not automatically adjust to fit text
 if everythingIsBreaking:
-    feedbackText.width = 50
+    feedbackText.width = 100
 else:
     feedbackText.width = 70
 
@@ -216,7 +222,7 @@ The app will score your password and give feedback on how to improve it if neces
 helpText.font_size = 10
 
 if everythingIsBreaking:
-    helpText.width = 50
+    helpText.width = 100
 else:
     helpText.width = 70
 
@@ -235,7 +241,7 @@ aboutText = gp.StyleLabel(aboutWindow, "Pass-O-Meter was developed by Oliver Hea
 aboutText.font_size = 10
 
 if everythingIsBreaking:
-    aboutText.width = 50
+    aboutText.width = 100
 else:
     aboutText.width = 70
 
