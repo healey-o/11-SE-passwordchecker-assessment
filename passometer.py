@@ -3,7 +3,7 @@ import custom_widgets as cw
 from passwordchecker import PasswordChecker
 from tkinter import ttk
 import random
-
+import platform
 
 pyperclipInstalled = True
 
@@ -13,10 +13,24 @@ except ImportError:
     pyperclipInstalled = False
 
 
+#Prevent explosions on a Mac - some gooeypie features behave... differently
+if platform.system() == "Darwin":
+    everythingIsBreaking = True
+else:
+    everythingIsBreaking = False
+
+
 
 #Create app
 app = gp.GooeyPieApp('Password Checker')
-app.width = 500
+
+#Fit everything in window based on OS- Mac has larger default text size
+if everythingIsBreaking:
+    app.width = 600
+else:
+    app.width = 500
+
+
 app.height = 500
 app.resizable_horizontal = False
 app.resizable_vertical = False
@@ -109,7 +123,12 @@ def HoverTitle(event):
     title.font_weight = 'bold'
 
 def StopHover(event):
-    title.color = 'default'
+
+    if everythingIsBreaking: #Gooeypie's 'default' colour does not work on Mac
+        title.color = 'black'
+    else:
+        title.color = 'default'
+    
     title.font_style = 'normal'
     title.font_weight = 'normal'
 
@@ -155,11 +174,20 @@ passwordSubmit = gp.Button(app,"Scan Password",OnPasswordSubmit)
 
 #Score and feedback
 scoreDisplay = cw.ColourProgressbar(app,'determinate')
-feedbackText = gp.Label(app, "")
+feedbackText = gp.StyleLabel(app, "")
 
 #Add text to feedback
 feedbackText.text = "Please enter a password to recieve feedback."
-feedbackText.width = 78
+
+#Set font size to (try to) keep compatability between Mac and Windows
+feedbackText.font_size = 10
+
+#Windows and Mac's text wrap appears to work differently - The window in Mac does not automatically adjust to fit text
+if everythingIsBreaking:
+    feedbackText.width = 50
+else:
+    feedbackText.width = 70
+
 feedbackText.wrap = True
 
 #Copy password
@@ -182,9 +210,15 @@ helpTitle = gp.StyleLabel(helpWindow,"Help")
 helpTitle.font_size = 20
 helpTitle.font_name = "Georgia"
 
-helpText = gp.Label(helpWindow, """Pass-O-Meter can score your password's security and give feedback based on the results.
+helpText = gp.StyleLabel(helpWindow, """Pass-O-Meter can score your password's security and give feedback based on the results.
 Simply enter your password into the prompted textbox, and press [Scan Password] when ready.
 The app will score your password and give feedback on how to improve it if necessary, and allow you to copy the password once a high enough score has been reached.""")
+helpText.font_size = 10
+
+if everythingIsBreaking:
+    helpText.width = 50
+else:
+    helpText.width = 70
 
 
 helpText.width = 78
@@ -197,8 +231,14 @@ aboutTitle = gp.StyleLabel(aboutWindow,"About")
 aboutTitle.font_size = 20
 aboutTitle.font_name = "Georgia"
 
-aboutText = gp.Label(aboutWindow, "Pass-O-Meter was developed by Oliver Healey and it has been released under a MIT License. It was created for a Year 11 Software Engineering assessment task, using Python. The app was constructed using the gooeypie GUI library, as well as a pyhibp, a python library that allows access to the Have I Been Pwned? library. The pyperclip library can ooptionally be used to allow easy copying of strong passwords.\nLinks:")
-aboutText.width = 78
+aboutText = gp.StyleLabel(aboutWindow, "Pass-O-Meter was developed by Oliver Healey and it has been released under a MIT License. It was created for a Year 11 Software Engineering assessment task, using Python. The app was constructed using the gooeypie GUI library, as well as a pyhibp, a python library that allows access to the Have I Been Pwned? library. The pyperclip library can ooptionally be used to allow easy copying of strong passwords.\nLinks:")
+aboutText.font_size = 10
+
+if everythingIsBreaking:
+    aboutText.width = 50
+else:
+    aboutText.width = 70
+
 aboutText.wrap = True
 
 gooeypieLink = gp.Hyperlink(aboutWindow, "GooeyPie","https://www.gooeypie.dev/about")
