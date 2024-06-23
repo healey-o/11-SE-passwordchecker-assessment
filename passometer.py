@@ -222,7 +222,7 @@ The app will score your password and give feedback on how to improve it if neces
 helpText.font_size = 10
 
 if everythingIsBreaking:
-    helpText.width = 100
+    helpText.width = 60
 else:
     helpText.width = 70
 
@@ -241,7 +241,7 @@ aboutText = gp.StyleLabel(aboutWindow, "Pass-O-Meter was developed by Oliver Hea
 aboutText.font_size = 10
 
 if everythingIsBreaking:
-    aboutText.width = 100
+    aboutText.width = 60
 else:
     aboutText.width = 70
 
