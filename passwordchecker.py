@@ -11,7 +11,7 @@ except ImportError:
 
 class PasswordChecker:
     def __init__(self,password):
-        self._password = "password"
+        self._password = ""
 
         #Total score
         self._score = 0
@@ -154,7 +154,7 @@ class PasswordChecker:
             
 
     #Generates feedback based on score
-    def generate_feedback(self):
+    def generate_feedback(self, feedbackMode):
         feedback = ""
 
         if self.contains_password():
@@ -163,10 +163,7 @@ class PasswordChecker:
             feedback += "Your password has achieved the maximum score. You have a very secure password!"
         else:
             feedback += f"Your password is {self._current_rating.lower()}."
-            
-            #Stores score of each type of 'problem' (not including _pwned_score)
-            problems = [self._length_score, self._character_score, self._rarity_score]
-            
+
             #Report on the haveibeenpwned status
             if self._pyhibpAvailiable:
                 if self.get_times_pwned():
@@ -175,69 +172,106 @@ class PasswordChecker:
                     feedback += (f"\n\nYour password has not been breached.")
             else:
                 feedback += (f"\n\nThe Have I Been Pwned API cannot be accessed. To determine whether your password has been breached, please try again later, or install the pyHIBP library if it is not installed.")
+        
             
-            #Check if any other issues are present
 
-            #Length
-            if problems[0] < 50:
-                feedback += "\n\nYour password is very short. It could be strengthened greatly by making it longer."
-            elif problems[0] < 100:
-                feedback += "\n\nYour password is moderately long, but would be stronger if it was slightly longer."
-            
-            #Character variety
-            if problems[1] < 100:
-
-                if problems[1] < 50:
-                    feedback += "\n\nYou do not have a very large variety of characters in your password. "
-                else:
-                    feedback += "\n\nYou could strengthen your password by adding a few more different characters. "
-
-                #Get all types of characters and their corresponding names
-                characterTypes = {"special character":len(self._specialCount),"number":len(self._numberCount),"uppercase letter":len(self._upperCount),"lowercase letter":len(self._lowerCount)}
+            #Choose type of feedback
+            if feedbackMode == "text":
+                feedback += self.written_feedback()
                 
-                
-
-                #Check each type of character
-
-                unusedTypes = []#Stores types of character that are not used
-
-                singleUseTypes = []#Stores types of character that are only used once
-
-                for characterType in characterTypes:
-                    if characterTypes[characterType] <= 0:
-                        unusedTypes.append(characterType)
-
-                    elif characterTypes[characterType] == 1:
-                        singleUseTypes.append(characterType)
-                
-                if len(unusedTypes) > 0:
-
-                    if len(unusedTypes) > 1:
-                        #Add grammar between characters
-                        unusedString = "s, ".join(unusedTypes[:len(unusedTypes)-1:]) + "s or " + unusedTypes[len(unusedTypes)-1]
-                    else:
-                        unusedString = unusedTypes[0]
-                    
-                    feedback += f"You have not used any {unusedString}s. "
-
-                if len(singleUseTypes) > 0:
-
-                    if len(singleUseTypes) > 1:
-                        #Add grammar between characters
-                        singleUsedString = ", ".join(singleUseTypes[:len(singleUseTypes)-1:]) + " and " + singleUseTypes[len(singleUseTypes)-1]
-                    else:
-                        singleUsedString = singleUseTypes[0]
-                    
-                    feedback += f"You have only used one type of {singleUsedString}. "
-
-            #Rarity
-            if problems[2] < 100:
-                feedback += f"\n\nYour password is very commonly used. Try to create a more unique password."
-                    
-            
+            elif feedbackMode == "star":
+                feedback += self.star_feedback()
 
         return feedback
 
+    def written_feedback(self):
+        #Generate text based on what can be improved
+        
+        feedback = ""
+
+        #Stores score of each type of 'problem' (not including _pwned_score)
+        problems = [self._length_score, self._character_score, self._rarity_score]
+            
+        
+        #Check if any other issues are present
+
+        #Length
+        if problems[0] < 50:
+            feedback += "\n\nYour password is very short. It could be strengthened greatly by making it longer."
+        elif problems[0] < 100:
+            feedback += "\n\nYour password is moderately long, but would be stronger if it was slightly longer."
+        
+        #Character variety
+        if problems[1] < 100:
+
+            if problems[1] < 50:
+                feedback += "\n\nYou do not have a very large variety of characters in your password. "
+            else:
+                feedback += "\n\nYou could strengthen your password by adding a few more different characters. "
+
+            #Get all types of characters and their corresponding names
+            characterTypes = {"special character":len(self._specialCount),"number":len(self._numberCount),"uppercase letter":len(self._upperCount),"lowercase letter":len(self._lowerCount)}
+            
+            
+
+            #Check each type of character
+
+            unusedTypes = []#Stores types of character that are not used
+
+            singleUseTypes = []#Stores types of character that are only used once
+
+            for characterType in characterTypes:
+                if characterTypes[characterType] <= 0:
+                    unusedTypes.append(characterType)
+
+                elif characterTypes[characterType] == 1:
+                    singleUseTypes.append(characterType)
+            
+            if len(unusedTypes) > 0:
+
+                if len(unusedTypes) > 1:
+                    #Add grammar between characters
+                    unusedString = "s, ".join(unusedTypes[:len(unusedTypes)-1:]) + "s or " + unusedTypes[len(unusedTypes)-1]
+                else:
+                    unusedString = unusedTypes[0]
+                
+                feedback += f"You have not used any {unusedString}s. "
+
+            if len(singleUseTypes) > 0:
+
+                if len(singleUseTypes) > 1:
+                    #Add grammar between characters
+                    singleUsedString = ", ".join(singleUseTypes[:len(singleUseTypes)-1:]) + " and " + singleUseTypes[len(singleUseTypes)-1]
+                else:
+                    singleUsedString = singleUseTypes[0]
+                
+                feedback += f"You have only used one type of {singleUsedString}. "
+            
+        #Rarity
+        if problems[2] < 100:
+            feedback += f"\n\nYour password is very commonly used. Try to create a more unique password."
+            
+        return feedback
+
+    def star_feedback(self):
+        #Generate star ratings based on each category
+        feedback = ""
+
+        allScores = {"Length":self._length_score, "Character Variety":self._character_score, "Rarity":self._rarity_score}
+
+        for score in allScores:
+            feedback += "\n\n"
+            feedback += f"{score}: \n"
+
+            #Add stars
+            for i in range(5):
+                if allScores[score] >= i*20:
+                    feedback += "★"
+                else:
+                    feedback += "☆"
+            
+        
+        return feedback
 
 
     #Getter methods

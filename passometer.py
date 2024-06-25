@@ -31,7 +31,7 @@ else:
     app.width = 500
 
 
-app.height = 500
+app.height = 600
 app.resizable_horizontal = False
 app.resizable_vertical = False
 
@@ -44,14 +44,15 @@ else:
 
 
 #Create grid
-app.set_grid(6,2)
+app.set_grid(7,2)
 app.set_column_weights(3,1)
-app.set_row_weights(0,0,0,0,1,0)
+app.set_row_weights(0,0,0,0,0,1,0)
 
 #Set tkinter theme
 style = ttk.Style()
 
-
+#Can be "star" or "text" - type of feedback provided on password
+feedbackMode = "text"
 
 #Instatiate PasswordChecker class
 passometer = PasswordChecker("")
@@ -76,7 +77,7 @@ def OnPasswordSubmit(event):
 
         scoreDisplay.value = passometer.get_score()
 
-        feedbackText.text = passometer.generate_feedback()
+        feedbackText.text = passometer.generate_feedback(feedbackMode)
 
         if pyperclipInstalled:
             if passometer.get_score() >= 80:
@@ -138,6 +139,23 @@ def StopHover(event):
     title.font_style = 'normal'
     title.font_weight = 'normal'
 
+#Toggle between written feedback and star ratings
+def toggleFeedbackMode(event):
+    #Resorting to global variables :(
+    global feedbackMode
+
+    if feedbackMode == "text":
+        feedbackMode = "star"
+        feedbackModeBtn.text = "Feedback Mode: Stars"
+        
+    else:
+        feedbackMode = "text"
+        feedbackModeBtn.text = "Feedback Mode: Text"
+        
+    #Update feedback to match feedbackMode
+    if passometer.get_password() != "":
+        feedbackText.text = passometer.generate_feedback(feedbackMode)
+
 
 #Copy password to clipboard - only runs if pyperclip installed
 def CopyPassword(event):
@@ -180,6 +198,7 @@ passwordSubmit = gp.Button(app,"Scan Password",OnPasswordSubmit)
 
 #Score and feedback
 scoreDisplay = cw.ColourProgressbar(app,'determinate')
+feedbackModeBtn = gp.Button(app, "Feedback Mode: Text", toggleFeedbackMode)
 feedbackText = gp.StyleLabel(app, "")
 
 #Add text to feedback
@@ -266,11 +285,12 @@ passwordContainer.add(passwordVisibiltyBtn,1,3)
 app.add(passwordSubmit,3,1,fill=True,column_span=2,stretch=True)
 
 app.add(scoreDisplay,4,1,fill=True,column_span=2)
-app.add(feedbackText,5,1,fill=True,column_span=2)
+app.add(feedbackModeBtn, 5,1, column_span=2, align="center")
+app.add(feedbackText,6,1,fill=True,column_span=2)
 
-app.add(passwordCopyBtn,6,1,fill=True)
+app.add(passwordCopyBtn,7,1,fill=True)
 
-app.add(btnContainer,6,2,fill=True)
+app.add(btnContainer,7,2,fill=True)
 
 btnContainer.add(helpBtn,1,1,fill=True)
 btnContainer.add(aboutBtn,1,2,fill=True)
