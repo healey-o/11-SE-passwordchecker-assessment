@@ -10,7 +10,7 @@ except ImportError:
 
 
 class PasswordChecker:
-    def __init__(self,password):
+    def __init__(self):
         self._password = ""
 
         #Total score
@@ -46,7 +46,7 @@ class PasswordChecker:
             #Initialise pyhibp
             pyhibp.set_user_agent(ua="Pass-O-Meter/A simple password secuirty analysing program.")
 
-            self._timesPwned = pwnedpasswords.is_password_breached(password=self._password)
+            test = pwnedpasswords.is_password_breached(password="test") #Call API to test if it can be reached
             self._pyhibpAvailiable = True 
         except:
             self._timesPwned = None

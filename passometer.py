@@ -55,7 +55,7 @@ style = ttk.Style()
 feedbackMode = "text"
 
 #Instatiate PasswordChecker class
-passometer = PasswordChecker("")
+passometer = PasswordChecker()
 
 
 #Define functions
