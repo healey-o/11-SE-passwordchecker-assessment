@@ -98,7 +98,7 @@ class PasswordChecker:
         #Check if the password was in a row
         if passwordRow != None:
             #Return a lower value the more common the password
-            self._rarity_score = min(round(passwordRow/5),99)#Gives a score between 0 and 99
+            self._rarity_score = min(round(passwordRow/5),90)#Gives a score between 0 and 99
         else:
             #Not a common password
             self._rarity_score = 100
@@ -265,7 +265,7 @@ class PasswordChecker:
 
             #Add stars
             for i in range(5):
-                if allScores[score] >= i*20:
+                if allScores[score] >= (i+1)*20:
                     feedback += "★"
                 else:
                     feedback += "☆"
