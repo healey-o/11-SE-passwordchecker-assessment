@@ -257,7 +257,7 @@ class PasswordChecker:
         #Generate star ratings based on each category
         feedback = ""
 
-        allScores = {"Length":self._length_score, "Character Variety":self._character_score, "Rarity":self._rarity_score}
+        allScores = {"Length":self._length_score, "Character Variety":self._character_score, "Creativity":self._rarity_score}
 
         for score in allScores:
             feedback += "\n\n"
