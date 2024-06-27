@@ -237,7 +237,7 @@ helpTitle.font_name = "Georgia"
 
 helpText = gp.StyleLabel(helpWindow, """Pass-O-Meter can score your password's security and give feedback based on the results.
 Simply enter your password into the prompted textbox, and press [Scan Password] when ready.
-The app will score your password and give feedback on how to improve it if necessary, and allow you to copy the password once a high enough score has been reached.""")
+The app will score your password and give feedback on how to improve it if necessary, and allow you to copy the password once a high enough score has been achieved.""")
 helpText.font_size = 10
 
 if everythingIsBreaking:
@@ -256,7 +256,7 @@ aboutTitle = gp.StyleLabel(aboutWindow,"About")
 aboutTitle.font_size = 20
 aboutTitle.font_name = "Georgia"
 
-aboutText = gp.StyleLabel(aboutWindow, "Pass-O-Meter was developed by Oliver Healey and it has been released under a MIT License. It was created for a Year 11 Software Engineering assessment task, using Python. The app was constructed using the gooeypie GUI library, as well as a pyhibp, a python library that allows access to the Have I Been Pwned? library. The pyperclip library can ooptionally be used to allow easy copying of strong passwords.\nLinks:")
+aboutText = gp.StyleLabel(aboutWindow, "Pass-O-Meter was developed by Oliver Healey and it has been released under a MIT License. It was created for a Year 11 Software Engineering assessment task, using Python. The app was constructed using the gooeypie GUI library, as well as a pyhibp, a python library that allows access to the Have I Been Pwned API. The pyperclip library can optionally be used to allow easy copying of strong passwords.\nLinks:")
 aboutText.font_size = 10
 
 if everythingIsBreaking:
